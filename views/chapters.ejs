@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Chapters | Paperify</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root { 
+            --brand-green: #19c880; 
+            --deep-navy: #3f3a64; 
+            --soft-bg: #f8f1eb;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: var(--deep-navy); }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        .custom-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .chapter-item {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .chapter-item:hover { border-color: var(--brand-green); }
+        .chapter-item.selected { border-color: var(--brand-green); background: var(--soft-bg); }
+    </style>
+</head>
+<body>
+    <nav class="bg-[#f8f1eb] py-6 sticky top-0 z-50">
+        <div class="custom-container flex justify-between items-center">
+            <div class="text-3xl font-black tracking-tighter text-[#3f3a64]">
+                <a href="/">Paper<span class="text-[#19c880]">ify</span></a>
+            </div>
+            <div class="px-4 py-1 bg-white rounded-full border border-gray-200 shadow-sm text-right">
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">Selection</p>
+                <p id="displaySelection" class="text-sm font-bold text-[#19c880] capitalize">Loading...</p>
+            </div>
+        </div>
+    </nav>
+
+    <main class="custom-container py-16">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-black mb-4">Select <span class="text-[#19c880] italic">Chapters</span></h1>
+            <p class="text-gray-400 font-medium max-w-md mx-auto">Choose specific chapters for your paper generation.</p>
+        </div>
+
+        <div id="subjectsContainer" class="space-y-8 mb-8">
+        </div>
+
+        <div class="text-center">
+            <button id="generateBtn" onclick="generatePaper()" class="bg-[#19c880] text-white px-8 py-3 rounded-full font-bold hover:bg-[#16b574] transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Generate Paper <i class="fas fa-file-alt ml-2"></i>
+            </button>
+        </div>
+
+        <div class="mt-20 text-center">
+            <button onclick="window.history.back()" class="text-gray-400 hover:text-[#3f3a64] font-bold text-sm uppercase tracking-widest transition">
+                <i class="fa fa-arrow-left mr-2"></i> Go Back
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const board = urlParams.get('board');
+        const className = urlParams.get('class');
+        const group = urlParams.get('group');
+        const subjects = urlParams.get('subjects').split(',');
+        
+        document.getElementById('displaySelection').innerText = `${board} - ${group} - Class ${className}`;
+        
+        let selectedChapters = {};
+        let allSubjectsData = [];
+
+        async function loadChapters() {
+            try {
+                const response = await fetch(`/api/subjects/${board}/${className}/${group}`);
+                const allSubjects = await response.json();
+                
+                allSubjectsData = allSubjects.filter(s => subjects.includes(s.name.en));
+                displayChapters();
+            } catch (error) {
+                console.error('Failed to load chapters:', error);
+            }
+        }
+
+        function displayChapters() {
+            const container = document.getElementById('subjectsContainer');
+            container.innerHTML = '';
+            
+            allSubjectsData.forEach((subject, subjectIndex) => {
+                const subjectDiv = document.createElement('div');
+                subjectDiv.className = 'bg-white p-6 rounded-lg shadow-sm';
+                
+                subjectDiv.innerHTML = `
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">${subject.name.en} (${subject.name.ur})</h3>
+                        <button onclick="selectAllChapters(${subjectIndex})" class="text-sm bg-[#19c880] text-white px-3 py-1 rounded-full hover:bg-[#16b574] transition">
+                            Select All
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="chapters_${subjectIndex}">
+                    </div>
+                `;
+                
+                container.appendChild(subjectDiv);
+                
+                const chaptersGrid = document.getElementById(`chapters_${subjectIndex}`);
+                subject.chapters.forEach((chapter, chapterIndex) => {
+                    const chapterDiv = document.createElement('div');
+                    chapterDiv.className = 'chapter-item p-3 rounded border bg-gray-50';
+                    chapterDiv.onclick = () => toggleChapter(subjectIndex, chapterIndex);
+                    
+                    chapterDiv.innerHTML = `
+                        <p class="font-medium text-sm">${chapter.title.en}</p>
+                        <p class="text-xs text-gray-500">${chapter.title.ur}</p>
+                    `;
+                    
+                    chaptersGrid.appendChild(chapterDiv);
+                });
+                
+                selectedChapters[subjectIndex] = [];
+            });
+        }
+
+        function toggleChapter(subjectIndex, chapterIndex) {
+            const chapterDiv = document.querySelectorAll(`#chapters_${subjectIndex} .chapter-item`)[chapterIndex];
+            
+            if (selectedChapters[subjectIndex].includes(chapterIndex)) {
+                selectedChapters[subjectIndex] = selectedChapters[subjectIndex].filter(i => i !== chapterIndex);
+                chapterDiv.classList.remove('selected');
+            } else {
+                selectedChapters[subjectIndex].push(chapterIndex);
+                chapterDiv.classList.add('selected');
+            }
+            
+            updateGenerateButton();
+        }
+
+        function selectAllChapters(subjectIndex) {12
+            const subject = allSubjectsData[subjectIndex];
+            selectedChapters[subjectIndex] = subject.chapters.map((_, i) => i);
+            
+            document.querySelectorAll(`#chapters_${subjectIndex} .chapter-item`).forEach(div => {
+                div.classList.add('selected');
+            });
+            
+            updateGenerateButton();
+        }
+
+        function updateGenerateButton() {
+            const hasSelection = Object.values(selectedChapters).some(chapters => chapters.length > 0);
+            document.getElementById('generateBtn').disabled = !hasSelection;
+        }
+
+        function generatePaper() {
+            const selections = [];
+            
+            Object.keys(selectedChapters).forEach(subjectIndex => {
+                const subject = allSubjectsData[subjectIndex];
+                const chapters = selectedChapters[subjectIndex];
+                
+                if (chapters.length > 0) {
+                    selections.push({
+                        subject: subject.name.en,
+                        chapters: chapters.map(i => subject.chapters[i].title.en)
+                    });
+                }
+            });
+            
+            const params = new URLSearchParams({
+                board,
+                class: className,
+                group,
+                selections: JSON.stringify(selections)
+            });
+            
+            window.location.href = `/paper-generator?${params.toString()}`;
+        }
+
+        loadChapters();
+    </script>
+</body>
+</html>

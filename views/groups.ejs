@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Group | Paperify</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        :root { 
+            --brand-green: #19c880; 
+            --deep-navy: #3f3a64; 
+            --soft-bg: #f8f1eb;
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: var(--deep-navy); }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        .custom-container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+        .group-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border: 1px solid #eee;
+            display: block;
+        }
+
+        .group-card:hover {
+            border-color: var(--brand-green);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(63, 58, 100, 0.08);
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background: var(--soft-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--brand-green);
+            margin: 0 auto 20px;
+            transition: 0.3s;
+        }
+
+        .group-card:hover .icon-circle {
+            background: var(--brand-green);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="bg-[#f8f1eb] py-6 sticky top-0 z-50">
+        <div class="custom-container flex justify-between items-center">
+            <div class="text-3xl font-black tracking-tighter text-[#3f3a64]">
+                <a href="/">Paper<span class="text-[#19c880]">ify</span></a>
+            </div>
+            <div class="px-4 py-1 bg-white rounded-full border border-gray-200 shadow-sm text-right">
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">Selection</p>
+                <p id="displayBoard" class="text-sm font-bold text-[#19c880] capitalize">Loading...</p>
+            </div>
+        </div>
+    </nav>
+
+    <main class="custom-container py-16">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-black mb-4">Choose Your <span class="text-[#19c880] italic">Study Group</span></h1>
+            <p class="text-gray-400 font-medium max-w-md mx-auto">Select your specific elective stream to view the relevant textbooks.</p>
+        </div>
+
+        <div id="groupGrid" class="flex flex-wrap justify-center gap-8">
+            </div>
+
+        <div class="mt-20 text-center">
+            <button onclick="window.history.back()" class="text-gray-400 hover:text-[#3f3a64] font-bold text-sm uppercase tracking-widest transition">
+                <i class="fa fa-arrow-left mr-2"></i> Go Back to Boards
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const board = urlParams.get('board') || 'punjab';
+        const grade = urlParams.get('grade') || '9';
+        const className = grade; // Use grade as class
+        document.getElementById('displayBoard').innerText = board + " Board - Class " + className;
+
+        // For Class 11/12: skip group selection and go directly to books with default group
+        if (className === '11' || className === '12') {
+            // For higher classes, we'll default to 'science' group but show all subjects
+            window.location.href = `/books?board=${board}&class=${className}&group=all`;
+        }
+
+        // Logic: All boards now only show Science and Arts/Humanities
+        const boardGroups = {
+            'punjab': [
+                { name: 'Science', icon: 'fa-microscope', sub: 'Physics, Chem, Bio/Math' },
+                { name: 'Arts', icon: 'fa-palette', sub: 'General Science & Humanities' }
+            ],
+            'sindh': [
+                { name: 'Science', icon: 'fa-atom', sub: 'Pre-Medical / Pre-Engineering' },
+                { name: 'Arts', icon: 'fa-book-open', sub: 'Humanities Group' }
+            ],
+            'federal': [
+                { name: 'Science', icon: 'fa-dna', sub: 'Physics, Chemistry, Biology' },
+                { name: 'Humanities', icon: 'fa-users', sub: 'Civics, History, Economics' }
+            ],
+            'kpk': [
+                { name: 'Science', icon: 'fa-flask-vial', sub: 'General Science Group' },
+                { name: 'Arts', icon: 'fa-feather', sub: 'Humanities Group' }
+            ],
+            'balochistan': [
+                { name: 'Science', icon: 'fa-vial', sub: 'Science Electives' },
+                { name: 'Arts', icon: 'fa-shapes', sub: 'Humanities Electives' }
+            ]
+        };
+
+        const grid = document.getElementById('groupGrid');
+        const groups = boardGroups[board.toLowerCase()] || boardGroups['punjab'];
+
+        groups.forEach(group => {
+            const card = `
+                <a href="/books?board=${board}&class=${className}&group=${group.name.toLowerCase()}" class="group-card p-10 rounded-[40px] text-center w-full max-w-[320px]">
+                    <div class="icon-circle">
+                        <i class="fas ${group.icon}"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-2">${group.name}</h3>
+                    <p class="text-sm text-gray-400 font-medium">${group.sub}</p>
+                </a>
+            `;
+            grid.innerHTML += card;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Subject | Paperify</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --brand-green: #3d8467;
+            --deep-navy: #3f3a64;
+            --soft-bg: #f8f1eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: var(--deep-navy);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .custom-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .subject-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #eee;
+            background: white;
+            cursor: pointer;
+        }
+
+        .subject-card:hover {
+            border-color: var(--brand-green);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(63, 58, 100, 0.08);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-footer {
+            padding: 20px 30px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            gap: 12px;
+            position: sticky;
+            bottom: 0;
+            background: white;
+        }
+
+        .item-row {
+            padding: 16px;
+            border: 2px solid #f3f4f6;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .item-row:hover {
+            border-color: var(--brand-green);
+            background: #f0fff9;
+        }
+
+        .status-active {
+            color: black;
+            font-weight: 700;
+        }
+
+        .status-nonactive {
+            color: #ef4444;
+            font-weight: 700;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .btn-outline {
+            border: 2px solid var(--brand-green);
+            background: white;
+            color: var(--brand-green);
+        }
+
+        .btn-outline:hover {
+            background: var(--brand-green);
+            color: white;
+        }
+
+        .btn-done {
+            background: var(--brand-green);
+            color: white;
+            box-shadow: 0 4px 12px rgba(61, 132, 103, 0.3);
+        }
+
+        .selected-badge {
+            background: var(--brand-green);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .topic-btn {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--brand-green);
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border: 1px solid var(--brand-green);
+            border-radius: 6px;
+        }
+
+        .loading-wrap {
+            text-align: center;
+            padding: 36px 12px;
+            color: var(--brand-green);
+            font-weight: 800;
+        }
+
+        .loading-dots {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            background: var(--brand-green);
+            animation: dotPulse 1s infinite ease-in-out;
+            opacity: 0.35;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes dotPulse {
+            0%, 80%, 100% {
+                opacity: 0.35;
+                transform: scale(1);
+            }
+            40% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="bg-[#f8f1eb] py-4 sticky top-0 z-50">
+        <div class="custom-container flex justify-between items-center">
+            <div class="text-3xl font-black text-[#3f3a64]">Paper<span class="text-[#19c880]">ify</span></div>
+            <div class="px-4 py-1 bg-white rounded-full border border-gray-200">
+                <p id="displayInfo" class="text-sm font-bold text-[#19c880] capitalize">Loading...</p>
+            </div>
+        </div>
+    </nav>
+
+    <main class="custom-container py-16">
+        <h1 class="text-4xl md:text-5xl font-black mb-4">Choose Your <span class="text-[#19c880] italic">Textbook</span>
+        </h1>
+        <p class="text-gray-400 font-medium mb-12">Select chapters and topics to build your custom paper.</p>
+
+        <div id="subjectGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="col-span-full loading-wrap">
+                Loading books
+                <span class="loading-dots" aria-label="Loading">
+                    <span></span><span></span><span></span>
+                </span>
+            </div>
+        </div>
+        <div id="proceedArea" class="mt-12 text-center"></div>
+    </main>
+
+    <div id="chapterModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="text-2xl font-black">Select Chapters</h2>
+                <button onclick="closeModal('chapterModal')" class="text-gray-400 hover:text-black"><i
+                        class="fas fa-times text-xl"></i></button>
+            </div>
+            <div class="modal-body" id="chapterList"></div>
+            <div class="modal-footer">
+                <button class="btn-action btn-outline" onclick="clearAllChapters()">Clear All</button>
+                <button class="btn-action btn-outline" onclick="selectAll('ch-cb')">Select All</button>
+                <button class="btn-action btn-done" onclick="confirmChapters()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="topicModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="topicTitle" class="text-2xl font-black">Select Topics</h2>
+                <button onclick="closeModal('topicModal')" class="text-gray-400 hover:text-black"><i
+                        class="fas fa-times text-xl"></i></button>
+            </div>
+            <div class="modal-body" id="topicList"></div>
+            <div class="modal-footer">
+                <button class="btn-action btn-outline" onclick="selectAll('tp-cb')">Select All</button>
+                <button class="btn-action btn-done" onclick="saveTopics()">Save Topics</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const board = params.get('board'), className = params.get('class'), group = params.get('group');
+        let currentSubject = '', selectedChapters = {};
+        let userSubscription = null;
+        const selectionStorageKey = `paperify_book_selection_${board || ''}_${className || ''}_${group || 'all'}`;
+
+        document.getElementById('displayInfo').innerText = `${board} - Class ${className}`;
+
+        function normalizeChapterTitle(input) {
+            if (!input) return '';
+            if (typeof input === 'string') return input.trim();
+            if (typeof input === 'object') {
+                if (typeof input.title === 'string') return input.title.trim();
+                if (input.title && typeof input.title === 'object') {
+                    return String(input.title.en || input.title.ur || '').trim();
+                }
+                return String(input.en || input.ur || '').trim();
+            }
+            return String(input).trim();
+        }
+
+        function sanitizeSelectionsMap(rawSelections) {
+            if (!rawSelections || typeof rawSelections !== 'object') return {};
+            const cleaned = {};
+            Object.keys(rawSelections).forEach(subjectName => {
+                const chapters = Array.isArray(rawSelections[subjectName]) ? rawSelections[subjectName] : [];
+                const normalized = chapters.map(ch => {
+                    const title = normalizeChapterTitle(ch);
+                    if (!title) return null;
+                    const topicsSource = (ch && typeof ch === 'object' && Array.isArray(ch.topics)) ? ch.topics : [];
+                    const topics = topicsSource.map(t => String(t || '').trim()).filter(Boolean);
+                    return { title, topics };
+                }).filter(Boolean);
+                if (normalized.length > 0) cleaned[subjectName] = normalized;
+            });
+            return cleaned;
+        }
+
+        function loadSavedSelections() {
+            selectedChapters = {};
+            try { localStorage.removeItem(selectionStorageKey); } catch (error) {}
+        }
+
+        function persistSelections() {
+            // Intentionally no-op: do not persist chapter/topic selections in browser storage.
+        }
+
+        async function checkUserSubscription() {
+            try {
+                const userEmail = (localStorage.getItem('paperify_user_email') || '').trim();
+                const response = await fetch(`/api/user/subscription?userEmail=${encodeURIComponent(userEmail)}`);
+                const data = await response.json();
+                if (data && data.subscription) {
+                    userSubscription = data.subscription;
+                }
+            } catch (error) {
+                console.error('Subscription check failed');
+            }
+        }
+
+        async function loadSubjects() {
+            await checkUserSubscription();
+            const grid = document.getElementById('subjectGrid');
+            grid.innerHTML = `
+                <div class="col-span-full loading-wrap">
+                    Loading books
+                    <span class="loading-dots" aria-label="Loading">
+                        <span></span><span></span><span></span>
+                    </span>
+                </div>
+            `;
+
+            const url = (group && group !== 'null' && group !== 'undefined')
+                ? `/api/subjects/${board}/${className}/${group}`
+                : `/api/subjects/${board}/${className}`;
+
+            console.log('Fetching subjects from:', url);
+            const res = await fetch(url);
+            let subjects = await res.json();
+            console.log('Received subjects:', subjects.length, subjects);
+            
+            // Normalize subject names
+            subjects = subjects.map(s => ({
+                ...s,
+                name: typeof s.name === 'object' ? s.name : { en: s.name || s.displayName || '' }
+            }));
+
+            let showLockPrompt = false;
+            if (userSubscription && userSubscription.plan === 'monthly_specific' && (!userSubscription.books || userSubscription.books.length === 0)) {
+                showLockPrompt = true;
+            } else if (userSubscription && userSubscription.books && userSubscription.books.length > 0) {
+                const allowedBooks = userSubscription.books.map(b => b.toLowerCase().replace(/\s/g, '').trim());
+                subjects = subjects.filter(s => {
+                    const subjectName = (s.name && typeof s.name === 'object') ? s.name.en : s.name;
+                    if (!subjectName) return false;
+                    const normalizedName = subjectName.toLowerCase().replace(/\s/g, '').trim();
+                    return allowedBooks.includes(normalizedName);
+                });
+            }
+
+            if (subjects.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-10">
+                    <div class="max-w-md mx-auto">
+                        <i class="fas fa-book text-6xl text-gray-300 mb-4"></i>
+                        <h3 class="text-2xl font-bold text-gray-700 mb-2">No Books Found</h3>
+                        <p class="text-gray-500">No textbooks available for this selection. Please try a different class or group.</p>
+                        <button onclick="window.history.back()" class="mt-6 px-6 py-3 bg-[#19c880] text-white rounded-full font-bold hover:bg-[#3d8467] transition">
+                            <i class="fas fa-arrow-left mr-2"></i>Go Back
+                        </button>
+                    </div>
+                </div>`;
+                return;
+            }
+
+            grid.innerHTML = (showLockPrompt ? `<div class="col-span-full bg-yellow-50 border border-yellow-200 p-6 rounded-3xl mb-8 flex items-center justify-between">
+            <div>
+                <h4 class="font-bold text-yellow-800">Select Your Book</h4>
+                <p class="text-sm text-yellow-600">You have a Monthly Specific plan. Please click on a book to lock it to your subscription.</p>
+            </div>
+            <i class="fas fa-lock text-yellow-400 text-2xl"></i>
+        </div>` : '') + subjects.map(s => {
+                const displayName = (s.name && typeof s.name === 'object') ? s.name.en : (s.name || s.displayName || 'Unknown Subject');
+                return `
+            <div class="subject-card p-10 rounded-[32px]" onclick="openChapters('${displayName}')">
+                <div class="w-12 h-12 bg-[#f8f1eb] rounded-xl flex items-center justify-center text-[#19c880] mb-6">
+                    <i class="fas fa-book-open text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-black mb-2">${displayName}</h3>
+                <div id="badge-${displayName.replace(/\s/g, '')}"></div>
+                <div class="mt-6 flex items-center text-sm font-black text-[#19c880]">
+                    CONFIGURE <i class="fas fa-arrow-right ml-2"></i>
+                </div>
+            </div>
+        `}).join('');
+
+            updateSubjectBadges();
+            showProceed();
+        }
+
+        async function openChapters(subject) {
+            if (userSubscription && userSubscription.plan === 'monthly_specific' && (!userSubscription.books || userSubscription.books.length === 0)) {
+                if (!confirm(`Do you want to lock "${subject}" to your subscription? You won't be able to change this later.`)) {
+                    return;
+                }
+                try {
+                    const lockRes = await fetch('/api/user/subscription/lock-book', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ book: subject })
+                    });
+                    const lockData = await lockRes.json();
+                    if (lockData.success) {
+                        alert(lockData.message);
+                        location.reload();
+                        return;
+                    } else {
+                        alert(lockData.error);
+                    }
+                } catch (err) {
+                    alert('Failed to lock book');
+                }
+                return;
+            }
+
+            currentSubject = subject;
+            document.getElementById('modalTitle').innerText = subject;
+            document.getElementById('chapterModal').classList.add('show');
+            document.getElementById('chapterList').innerHTML = '<p class="text-center font-bold text-[#19c880]">Loading...</p>';
+
+            try {
+                const res = await fetch(`/api/chapters/${board}/${className}/${encodeURIComponent(subject)}`);
+                const chapters = await res.json();
+
+                const saved = selectedChapters[currentSubject] || [];
+                const showTopicsBtn = (className === '11' || className === '12');
+
+                document.getElementById('chapterList').innerHTML = chapters.map(ch => {
+                    const chTitle = (ch.title && typeof ch.title === 'object') ? ch.title.en : ch.title;
+                    const isChecked = saved.find(c => c.title === chTitle) ? 'checked' : '';
+                    const escapedTitle = chTitle.replace(/'/g, "\\'");
+
+                    return `
+                <div class="item-row">
+                    <input type="checkbox" class="ch-cb w-5 h-5 accent-[#3d8467]" value="${chTitle}" ${isChecked} onchange="toggleChapter('${escapedTitle}', this.checked)">
+                    <label class="flex-1 font-bold">${chTitle}</label>
+                    ${showTopicsBtn ? `<button onclick="event.stopPropagation(); fetchTopics('${escapedTitle}')" class="topic-btn">Topics</button>` : ''}
+                </div>
+                `;
+                }).join('');
+            } catch (err) {
+                document.getElementById('chapterList').innerHTML = '<p class="text-red-500">Error loading chapters.</p>';
+            }
+        }
+
+        function toggleChapter(title, isChecked) {
+            if (!selectedChapters[currentSubject]) selectedChapters[currentSubject] = [];
+            if (isChecked) {
+                if (!selectedChapters[currentSubject].find(c => c.title === title)) {
+                    selectedChapters[currentSubject].push({ title: title, topics: [] });
+                }
+            } else {
+                selectedChapters[currentSubject] = selectedChapters[currentSubject].filter(c => c.title !== title);
+            }
+            persistSelections();
+        }
+
+        function selectAll(className) {
+            const boxes = document.querySelectorAll('.' + className);
+            boxes.forEach(b => {
+                if (!b.checked) {
+                    b.checked = true;
+                    b.dispatchEvent(new Event('change'));
+                }
+            });
+        }
+
+        function clearAllChapters() {
+            const boxes = document.querySelectorAll('.ch-cb');
+            boxes.forEach(b => {
+                if (b.checked) {
+                    b.checked = false;
+                    b.dispatchEvent(new Event('change'));
+                }
+            });
+        }
+
+        function confirmChapters() {
+            closeModal('chapterModal');
+            updateSubjectBadges();
+            persistSelections();
+            showProceed();
+        }
+
+        function updateSubjectBadges() {
+            Object.keys(selectedChapters || {}).forEach(subjectName => {
+                const count = Array.isArray(selectedChapters[subjectName]) ? selectedChapters[subjectName].length : 0;
+                const badgeId = `badge-${subjectName.replace(/\s/g, '')}`;
+                const badgeEl = document.getElementById(badgeId);
+                if (!badgeEl) return;
+                badgeEl.innerHTML = count > 0 ? `<span class="selected-badge">${count} Selected</span>` : '';
+            });
+        }
+
+        function showProceed() {
+            const hasData = Object.keys(selectedChapters).some(k => selectedChapters[k].length > 0);
+            const area = document.getElementById('proceedArea');
+            if (hasData) {
+                area.innerHTML = `
+                <button onclick="proceed()" class="btn-action btn-done w-auto px-12 py-4 text-lg">
+                    Proceed to Questions <i class="fas fa-arrow-right ml-2"></i>
+                </button>`;
+            } else {
+                area.innerHTML = '';
+            }
+        }
+
+        async function proceed() {
+            const finalSelection = Object.keys(selectedChapters).map(subj => ({
+                subject: subj,
+                chapters: selectedChapters[subj].map(c => ({
+                    title: c.title,
+                    topics: c.topics || []
+                }))
+            }));
+            const transferKey = `paperify_transfer_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+            try {
+                sessionStorage.setItem(transferKey, JSON.stringify({
+                    board: board || '',
+                    className: className || '',
+                    group: group || '',
+                    selections: finalSelection
+                }));
+            } catch (e) {
+                console.error('Failed to store transfer payload in sessionStorage:', e);
+                try {
+                    const response = await fetch('/api/transfer', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            key: transferKey,
+                            payload: {
+                                board: board || '',
+                                className: className || '',
+                                group: group || '',
+                                selections: finalSelection
+                            }
+                        })
+                    });
+                    const result = await response.json();
+                    if (!response.ok || !result?.success) {
+                        alert('Unable to continue right now. Please refresh and try again.');
+                        return;
+                    }
+                } catch (apiError) {
+                    console.error('Failed to store transfer payload on server:', apiError);
+                    alert('Unable to continue right now. Please refresh and try again.');
+                    return;
+                }
+            }
+            window.location.href = `/questions?board=${encodeURIComponent(board || '')}&class=${encodeURIComponent(className || '')}&group=${encodeURIComponent(group || '')}&transfer=${encodeURIComponent(transferKey)}`;
+        }
+
+        async function fetchTopics(chapterTitle) {
+            if (!selectedChapters[currentSubject]) selectedChapters[currentSubject] = [];
+            if (!selectedChapters[currentSubject].find(c => c.title === chapterTitle)) {
+                selectedChapters[currentSubject].push({ title: chapterTitle, topics: [] });
+                const chCheckbox = document.querySelector(`input.ch-cb[value="${chapterTitle}"]`);
+                if (chCheckbox) chCheckbox.checked = true;
+            }
+
+            document.getElementById('topicTitle').innerText = `Topics: ${chapterTitle}`;
+            document.getElementById('topicModal').classList.add('show');
+            document.getElementById('topicList').innerHTML = '<p class="text-center font-bold text-[#19c880]">Loading...</p>';
+
+            try {
+                const res = await fetch(`/api/topics/${board}/${className}/${encodeURIComponent(currentSubject)}/${encodeURIComponent(chapterTitle)}`);
+                const topics = await res.json();
+
+                if (!topics || topics.length === 0) {
+                    document.getElementById('topicList').innerHTML = '<p class="text-center text-gray-500">No topics available for this chapter.</p>';
+                    return;
+                }
+
+                const chapter = selectedChapters[currentSubject]?.find(c => c.title === chapterTitle);
+                const savedTopics = chapter ? chapter.topics : [];
+
+                const normalizedTopics = topics.map(t => {
+                    const fallbackTitle = typeof t?.title === 'object' ? (t.title.en || t.title.ur || '') : (t?.title || '');
+                    const topicNameRaw = (t?.topic && typeof t.topic === 'object')
+                        ? (t.topic.en || t.topic.ur || '')
+                        : (t?.topic || fallbackTitle || '');
+                    const topicName = String(topicNameRaw || '').trim();
+                    if (!topicName) return null;
+                    const status = String(t?.status || 'active').toLowerCase();
+                    return { topicName, status };
+                }).filter(Boolean);
+
+                if (normalizedTopics.length === 0) {
+                    document.getElementById('topicList').innerHTML = '<p class="text-center text-gray-500">No topics available for this chapter.</p>';
+                    return;
+                }
+
+                document.getElementById('topicList').innerHTML = normalizedTopics.map(t => {
+                    const topicName = t.topicName;
+                    const status = t.status;
+                    const isActive = status === 'active';
+                    const isChecked = savedTopics.includes(topicName) ? 'checked' : '';
+                    const statusClass = isActive ? 'status-active' : 'status-nonactive';
+                    const escapedChapter = chapterTitle.replace(/'/g, "\\'");
+                    const escapedTopic = topicName.replace(/'/g, "\\'");
+
+                    return `
+                <div class="item-row">
+                    <input type="checkbox" class="tp-cb w-5 h-5 accent-[#3d8467]" value="${topicName}" ${isChecked} onchange="toggleTopic('${escapedChapter}', '${escapedTopic}', this.checked)">
+                    <label class="flex-1 ${statusClass}">${topicName}</label>
+                    <span class="text-xs px-2 py-1 rounded ${isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${status.toUpperCase()}</span>
+                </div>
+                `;
+                }).join('');
+            } catch (err) {
+                console.error('Error loading topics:', err);
+                document.getElementById('topicList').innerHTML = '<p class="text-red-500">Error loading topics.</p>';
+            }
+        }
+
+        function toggleTopic(chapterTitle, topicName, isChecked) {
+            if (!selectedChapters[currentSubject]) return;
+            const chapter = selectedChapters[currentSubject].find(c => c.title === chapterTitle);
+            if (!chapter) return;
+
+            if (!chapter.topics) chapter.topics = [];
+
+            if (isChecked) {
+                if (!chapter.topics.includes(topicName)) {
+                    chapter.topics.push(topicName);
+                }
+            } else {
+                chapter.topics = chapter.topics.filter(t => t !== topicName);
+            }
+            persistSelections();
+        }
+
+        function saveTopics() {
+            persistSelections();
+            closeModal('topicModal');
+        }
+
+        function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+        loadSavedSelections();
+        loadSubjects();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Payment Management | Paperify</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-shield-alt text-green-600"></i> Admin Panel
+                </h1>
+                <button onclick="logout()" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-sm border">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Pending Payments</p>
+                        <p id="pendingCount" class="text-3xl font-bold text-yellow-600">0</p>
+                    </div>
+                    <i class="fas fa-clock text-4xl text-yellow-200"></i>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Approved Payments</p>
+                        <p id="approvedCount" class="text-3xl font-bold text-green-600">0</p>
+                    </div>
+                    <i class="fas fa-check-circle text-4xl text-green-200"></i>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Total Revenue</p>
+                        <p id="totalRevenue" class="text-3xl font-bold text-blue-600">PKR 0</p>
+                    </div>
+                    <i class="fas fa-money-bill-wave text-4xl text-blue-200"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border">
+            <div class="p-6 border-b">
+                <h2 class="text-xl font-bold text-gray-800">Payment Requests</h2>
+                <p class="text-sm text-gray-500 mt-1">Review and approve customer payments</p>
+            </div>
+            <div class="p-6">
+                <div id="paymentsList" class="space-y-4">
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fas fa-spinner fa-spin text-4xl mb-4"></i>
+                        <p>Loading payments...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let payments = [];
+
+        async function loadPayments() {
+            try {
+                const response = await fetch('/api/admin/payments');
+                const data = await response.json();
+                
+                if (!data.success) {
+                    alert('Access denied. Admin only.');
+                    window.location.href = '/';
+                    return;
+                }
+
+                payments = data.payments;
+                updateStats();
+                renderPayments();
+            } catch (error) {
+                console.error('Error loading payments:', error);
+                document.getElementById('paymentsList').innerHTML = `
+                    <div class="text-center py-12 text-red-500">
+                        <i class="fas fa-exclamation-circle text-4xl mb-4"></i>
+                        <p>Error loading payments. Please refresh.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function updateStats() {
+            const pending = payments.filter(p => p.status === 'pending').length;
+            const approved = payments.filter(p => p.status === 'approved').length;
+            const revenue = payments
+                .filter(p => p.status === 'approved')
+                .reduce((sum, p) => sum + parseInt(p.amount || 0), 0);
+
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('approvedCount').textContent = approved;
+            document.getElementById('totalRevenue').textContent = `PKR ${revenue.toLocaleString()}`;
+        }
+
+        function renderPayments() {
+            const container = document.getElementById('paymentsList');
+            
+            if (payments.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fas fa-inbox text-4xl mb-4"></i>
+                        <p>No pending payments</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = payments.map(payment => {
+                const books = JSON.parse(payment.books || '[]');
+                return `
+                    <div class="border rounded-lg p-4 bg-yellow-50 border-yellow-200">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-200 text-yellow-800">
+                                        ⏳ PENDING VERIFICATION
+                                    </span>
+                                    <span class="text-sm text-gray-500">
+                                        ${new Date(payment.created_at).toLocaleString()}
+                                    </span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 text-sm">
+                                    <div>
+                                        <span class="text-gray-500">Email:</span>
+                                        <span class="font-semibold ml-2">${payment.user_email}</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-500">Plan:</span>
+                                        <span class="font-semibold ml-2">${payment.plan}</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-500">Expected Amount:</span>
+                                        <span class="font-semibold ml-2 text-green-600">PKR ${payment.amount}</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-500">Transaction ID:</span>
+                                        <span class="font-mono font-semibold ml-2">${payment.transaction_id || 'N/A'}</span>
+                                    </div>
+                                    ${books.length > 0 ? `
+                                    <div class="col-span-2">
+                                        <span class="text-gray-500">Books:</span>
+                                        <span class="font-semibold ml-2">${books.join(', ')}</span>
+                                    </div>
+                                    ` : ''}
+                                    <div class="col-span-2 mt-2 p-2 bg-blue-50 rounded border border-blue-200">
+                                        <span class="text-xs text-blue-800"><i class="fas fa-info-circle"></i> Verify screenshot shows PKR ${payment.amount} payment</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                ${payment.screenshot ? `
+                                <a href="/data/uploads/payments/${payment.screenshot}" target="_blank" 
+                                   class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-center text-sm">
+                                    <i class="fas fa-image"></i> View Screenshot
+                                </a>
+                                ` : ''}
+                                <button onclick="approvePayment('${payment.link_id}')" 
+                                        class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 text-sm">
+                                    <i class="fas fa-check"></i> Approve & Activate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getPlanName(plan) {
+            const names = {
+                'weekly_unlimited': 'Short Term (PKR 650)',
+                'monthly_specific': 'Monthly (PKR 900)',
+                'monthly_unlimited': 'Ultimate (PKR 1300)',
+                'short_term': 'Short Term (PKR 650)',
+                'monthly': 'Monthly (PKR 900)',
+                'ultimate': 'Ultimate (PKR 1300)'
+            };
+            return names[plan] || plan;
+        }
+
+        async function approvePayment(linkId) {
+            if (!confirm('Verify and approve this payment? This will activate the subscription.')) return;
+
+            try {
+                const response = await fetch(`/api/payment/confirm/${linkId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('✅ Payment verified and subscription activated!');
+                    loadPayments();
+                } else {
+                    alert('❌ Error: ' + data.error);
+                }
+            } catch (error) {
+                alert('❌ Error approving payment');
+            }
+        }
+
+        function logout() {
+            fetch('/api/auth/logout', { method: 'POST' })
+                .then(() => window.location.href = '/');
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadPayments, 30000);
+
+        // Initial load
+        loadPayments();
+    </script>
+</body>
+</html>

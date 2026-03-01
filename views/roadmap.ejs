@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roadmap 2.0 | Paperify</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #132437;
+      --mint: #00a889;
+      --bg: #f4fbfa;
+    }
+    body { font-family: 'Manrope', sans-serif; background: radial-gradient(circle at top left, #e9fff8, #f5f8ff 45%, #f7f7fb); color: var(--ink); }
+    .glass { background: rgba(255, 255, 255, 0.86); backdrop-filter: blur(10px); }
+    .chip { border: 1px solid #d3ece6; background: #f5fffc; }
+    .card { border: 1px solid #e1e8f0; background: #fff; border-radius: 16px; }
+    .popup-bg { background: rgba(8, 19, 34, 0.65); backdrop-filter: blur(4px); }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div class="max-w-6xl mx-auto px-4 py-6 md:py-10">
+    <div class="glass rounded-2xl p-5 md:p-7 shadow-xl border border-white/80">
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Roadmap 2.0 <span class="text-emerald-600">Free Growth Mode</span></h1>
+          <p class="text-slate-600 mt-1">All features are configured for no-cost launch stage.</p>
+        </div>
+        <div class="chip rounded-xl px-3 py-2 text-sm font-semibold">
+          <span id="modeBadge">FREE MODE</span>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-2 flex-wrap">
+        <a href="/" class="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 text-sm font-semibold">Home</a>
+        <button id="openIntakeBtn" class="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-semibold">New Roadmap Intake</button>
+      </div>
+    </div>
+
+    <div id="statusBar" class="mt-4 text-sm text-slate-600"></div>
+    <div id="roadmapRoot" class="mt-4 space-y-4"></div>
+  </div>
+
+  <div id="intakeModal" class="fixed inset-0 z-50 popup-bg flex items-center justify-center p-4">
+    <div class="w-full max-w-3xl card p-5 md:p-7">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-2xl font-extrabold">Roadmap Intake Form</h2>
+        <span class="text-xs font-bold bg-emerald-50 text-emerald-700 px-2 py-1 rounded">Required</span>
+      </div>
+      <p class="text-sm text-slate-600 mb-4">Fill this once. Then we generate roadmap, free courses, project checks, and hosting path.</p>
+      <div id="intakeError" class="hidden mb-3 p-2 rounded bg-red-50 border border-red-200 text-red-700 text-sm"></div>
+
+      <form id="intakeForm" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <input name="career_goal" required class="border rounded-lg p-2.5" placeholder="Career goal (e.g. Web Developer)" />
+        <select name="has_laptop" required class="border rounded-lg p-2.5">
+          <option value="">Do you have a laptop?</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+        <input name="location_country" required class="border rounded-lg p-2.5" placeholder="Country" />
+        <input name="location_city" class="border rounded-lg p-2.5" placeholder="City (optional)" />
+        <select name="preferred_language" required class="border rounded-lg p-2.5">
+          <option value="en">English</option>
+          <option value="ur">Urdu</option>
+          <option value="hi">Hindi</option>
+        </select>
+        <input name="education_level" required class="border rounded-lg p-2.5" placeholder="Education level" />
+        <select name="current_skill_level" required class="border rounded-lg p-2.5">
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+        <input type="number" min="1" max="80" name="weekly_hours_available" required class="border rounded-lg p-2.5" placeholder="Weekly hours available" />
+        <select name="internet_quality" required class="border rounded-lg p-2.5">
+          <option value="low">Internet quality: Low</option>
+          <option value="medium">Internet quality: Medium</option>
+          <option value="high">Internet quality: High</option>
+        </select>
+        <select name="budget_level" required class="border rounded-lg p-2.5">
+          <option value="free-only">Budget: Free only</option>
+          <option value="low">Budget: Low</option>
+          <option value="medium">Budget: Medium</option>
+        </select>
+        <button type="submit" class="md:col-span-2 mt-1 px-4 py-3 rounded-lg bg-emerald-600 text-white font-extrabold">Generate Roadmap</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let activeRoadmapId = '';
+    let activeRoadmap = null;
+    let activeLanguage = 'en';
+
+    const statusBar = document.getElementById('statusBar');
+    const root = document.getElementById('roadmapRoot');
+    const intakeModal = document.getElementById('intakeModal');
+    const intakeForm = document.getElementById('intakeForm');
+    const intakeError = document.getElementById('intakeError');
+
+    function openIntakeModal() {
+      intakeModal.classList.remove('hidden');
+      intakeModal.classList.add('flex');
+      intakeModal.style.display = 'flex';
+    }
+
+    function closeIntakeModal() {
+      intakeModal.classList.add('hidden');
+      intakeModal.classList.remove('flex');
+      intakeModal.style.display = 'none';
+    }
+
+    function setStatus(message, isError = false) {
+      statusBar.className = isError ? 'mt-4 text-sm text-red-600' : 'mt-4 text-sm text-slate-600';
+      statusBar.textContent = message;
+    }
+
+    function esc(v) {
+      return String(v || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function list(items) {
+      return `<ul class="list-disc pl-5 space-y-1">${(items || []).map(i => `<li>${esc(i)}</li>`).join('')}</ul>`;
+    }
+
+    function playVoice(text) {
+      if (!text) return;
+      fetch('/api/voice/synthesize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, language: activeLanguage, voiceStyle: 'friendly' })
+      }).catch(() => {});
+
+      try {
+        if (!window.speechSynthesis) return;
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = activeLanguage === 'ur' ? 'ur-PK' : (activeLanguage === 'hi' ? 'hi-IN' : 'en-US');
+        utter.rate = 0.95;
+        speechSynthesis.cancel();
+        speechSynthesis.speak(utter);
+      } catch (e) {}
+    }
+
+    async function fetchCourseRecommendations(goal, language, skill) {
+      const res = await fetch('/api/courses/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ career_goal: goal, language, skill_level: skill })
+      });
+      return res.json();
+    }
+
+    function renderRoadmap(roadmap, profile) {
+      activeRoadmap = roadmap;
+      activeLanguage = roadmap.language || profile.preferred_language || 'en';
+      document.getElementById('modeBadge').textContent = roadmap.freeMode ? 'FREE MODE' : 'STANDARD MODE';
+
+      const laptopHtml = Array.isArray(roadmap.laptopOptions) && roadmap.laptopOptions.length
+        ? `<div class="card p-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-bold">Laptop Options (Monthly Price Global Links)</h3>
+              <button onclick="playVoice(${JSON.stringify('Laptop options are shown below with monthly payment information.')})" class="text-xs px-3 py-1 rounded bg-slate-100">Play Voice</button>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">Prices vary by country and time. Verify seller reliability before purchase.</p>
+            <ul class="mt-2 list-disc pl-5 space-y-1">
+              ${roadmap.laptopOptions.map(item => `<li><a target="_blank" class="text-blue-700 underline" href="${esc(item.url)}">${esc(item.name)}</a> - ${esc(item.monthlyInfo)}</li>`).join('')}
+            </ul>
+          </div>`
+        : '';
+
+      const coursesHtml = (roadmap.courses || []).map(c => `
+        <div class="card p-3">
+          <div class="font-bold">${esc(c.title)}</div>
+          <div class="text-sm text-slate-600">${esc(c.provider)} | ${esc(c.duration)} | ${esc(c.costType)}</div>
+          <a target="_blank" href="${esc(c.youtubeLink)}" class="text-blue-700 underline text-sm">Open Friendly YouTube Link</a>
+        </div>
+      `).join('');
+
+      const weeklyHtml = (roadmap.weeklyPlan || []).map(w => `
+        <tr class="border-b">
+          <td class="p-2 font-semibold">${esc(w.week)}</td>
+          <td class="p-2">${esc(w.focus)}</td>
+          <td class="p-2">${esc(w.targetHours)}</td>
+          <td class="p-2">${esc(w.outcome)}</td>
+        </tr>
+      `).join('');
+
+      root.innerHTML = `
+        <div class="card p-4">
+          <div class="flex items-center justify-between gap-3 flex-wrap">
+            <h2 class="text-2xl font-extrabold">${esc(roadmap.title)}</h2>
+            <button onclick="playVoice(${JSON.stringify(roadmap.intro || '')})" class="px-3 py-1.5 rounded bg-emerald-600 text-white text-sm">Play Voice</button>
+          </div>
+          <p class="mt-2 text-slate-700">${esc(roadmap.intro || '')}</p>
+          <div class="mt-2 text-xs text-slate-500">Language: ${esc(activeLanguage.toUpperCase())} | Free Mode: ${roadmap.freeMode ? 'Yes' : 'No'}</div>
+        </div>
+
+        ${laptopHtml}
+
+        <div class="card p-4">
+          <h3 class="text-xl font-bold mb-2">Learning Path</h3>
+          ${list(roadmap.learningPath || [])}
+        </div>
+
+        <div class="card p-4">
+          <h3 class="text-xl font-bold mb-2">Weekly Plan</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead><tr class="bg-slate-50"><th class="p-2 text-left">Week</th><th class="p-2 text-left">Focus</th><th class="p-2 text-left">Hours/Week</th><th class="p-2 text-left">Outcome</th></tr></thead>
+              <tbody>${weeklyHtml}</tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card p-4">
+          <h3 class="text-xl font-bold mb-2">Free Courses (YouTube First)</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">${coursesHtml}</div>
+        </div>
+
+        <div class="card p-4">
+          <h3 class="text-xl font-bold mb-2">Milestones</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            ${(roadmap.milestones || []).map(m => `<li><strong>${esc(m.name)}:</strong> ${esc(m.criteria)}</li>`).join('')}
+          </ul>
+          <div class="mt-3 text-sm text-slate-700">${list(roadmap.tips || [])}</div>
+        </div>
+
+        <div class="card p-4">
+          <h3 class="text-xl font-bold mb-2">Project Submission and Check</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <input id="repoUrl" class="border rounded p-2" placeholder="GitHub/GitLab Repo URL" />
+            <input id="liveUrl" class="border rounded p-2" placeholder="Live Project URL (optional)" />
+          </div>
+          <textarea id="projectNotes" class="border rounded p-2 w-full mt-2" rows="3" placeholder="Describe your project quality, tests, and features"></textarea>
+          <div class="mt-2 flex gap-2 flex-wrap">
+            <button id="submitProjectBtn" class="px-4 py-2 rounded bg-emerald-600 text-white font-bold">Submit for Check</button>
+            <button id="provisionBtn" class="px-4 py-2 rounded bg-slate-800 text-white font-bold">Provision Free Hosting</button>
+            <button id="upgradeBtn" class="px-4 py-2 rounded bg-indigo-600 text-white font-bold">Claim Reward Upgrade</button>
+            <button id="appsBtn" class="px-4 py-2 rounded bg-slate-200 text-slate-800 font-bold">My Hosting Apps</button>
+          </div>
+          <div id="projectFeedback" class="mt-3 text-sm"></div>
+        </div>
+      `;
+
+      const projectFeedback = document.getElementById('projectFeedback');
+      let lastSubmissionId = '';
+
+      document.getElementById('submitProjectBtn').onclick = async () => {
+        const repoUrl = document.getElementById('repoUrl').value.trim();
+        const liveUrl = document.getElementById('liveUrl').value.trim();
+        const notes = document.getElementById('projectNotes').value.trim();
+        projectFeedback.textContent = 'Submitting and checking project...';
+        try {
+          const subRes = await fetch('/api/project/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ roadmapId: activeRoadmapId, repoUrl, liveUrl, notes })
+          });
+          const subData = await subRes.json();
+          if (!subRes.ok || !subData.success) throw new Error(subData.error || 'Submission failed');
+          lastSubmissionId = subData.submissionId;
+          const checkRes = await fetch(`/api/project/check/${encodeURIComponent(lastSubmissionId)}`);
+          const checkData = await checkRes.json();
+          if (!checkRes.ok || !checkData.success) throw new Error(checkData.error || 'Check failed');
+          projectFeedback.innerHTML = `
+            <div class="p-3 rounded bg-slate-50 border">
+              <div><strong>Score:</strong> ${esc(checkData.score)} / 100</div>
+              <div><strong>Verdict:</strong> ${esc(checkData.verdict)}</div>
+              <div><strong>Summary:</strong> ${esc(checkData.summary)}</div>
+            </div>
+          `;
+        } catch (e) {
+          projectFeedback.innerHTML = `<div class="p-3 rounded bg-red-50 text-red-700 border border-red-200">${esc(e.message)}</div>`;
+        }
+      };
+
+      document.getElementById('provisionBtn').onclick = async () => {
+        if (!lastSubmissionId) {
+          projectFeedback.innerHTML = '<div class="p-3 rounded bg-yellow-50 text-yellow-800 border">Submit and pass a project check first.</div>';
+          return;
+        }
+        try {
+          const res = await fetch('/api/hosting/provision', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ submissionId: lastSubmissionId })
+          });
+          const data = await res.json();
+          if (!res.ok || !data.success) throw new Error(data.error || 'Provision failed');
+          projectFeedback.innerHTML = `<div class="p-3 rounded bg-green-50 text-green-700 border border-green-200">Hosting provisioned. Endpoint: ${esc(data.app.endpoint)}</div>`;
+        } catch (e) {
+          projectFeedback.innerHTML = `<div class="p-3 rounded bg-red-50 text-red-700 border border-red-200">${esc(e.message)}</div>`;
+        }
+      };
+
+      document.getElementById('upgradeBtn').onclick = async () => {
+        if (!lastSubmissionId) {
+          projectFeedback.innerHTML = '<div class="p-3 rounded bg-yellow-50 text-yellow-800 border">Submit project first to claim reward.</div>';
+          return;
+        }
+        try {
+          const res = await fetch('/api/hosting/reward-upgrade', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ submissionId: lastSubmissionId })
+          });
+          const data = await res.json();
+          if (!res.ok || !data.success) throw new Error(data.error || 'Upgrade failed');
+          projectFeedback.innerHTML = `<div class="p-3 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">Reward granted. New tier: ${esc(data.tier.level)}</div>`;
+        } catch (e) {
+          projectFeedback.innerHTML = `<div class="p-3 rounded bg-red-50 text-red-700 border border-red-200">${esc(e.message)}</div>`;
+        }
+      };
+
+      document.getElementById('appsBtn').onclick = async () => {
+        try {
+          const res = await fetch('/api/hosting/apps');
+          const data = await res.json();
+          if (!res.ok || !data.success) throw new Error(data.error || 'Cannot fetch apps');
+          const appList = (data.apps || []).map(a => `${a.appId} (${a.status})`).join(', ') || 'No apps';
+          projectFeedback.innerHTML = `<div class="p-3 rounded bg-slate-50 border"><strong>Tier:</strong> ${esc(data.tier.level)}<br/><strong>Apps:</strong> ${esc(appList)}</div>`;
+        } catch (e) {
+          projectFeedback.innerHTML = `<div class="p-3 rounded bg-red-50 text-red-700 border border-red-200">${esc(e.message)}</div>`;
+        }
+      };
+    }
+
+    async function generateFromIntake(payload) {
+      setStatus('Saving intake...');
+      const intakeRes = await fetch('/api/roadmap/intake', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const intakeData = await intakeRes.json();
+      if (!intakeRes.ok || !intakeData.success) throw new Error(intakeData.error || 'Intake failed');
+
+      setStatus('Generating roadmap...');
+      const genRes = await fetch('/api/roadmap/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ intakeId: intakeData.intakeId })
+      });
+      const genData = await genRes.json();
+      if (!genRes.ok || !genData.success) throw new Error(genData.error || 'Roadmap generation failed');
+
+      const courseRes = await fetchCourseRecommendations(payload.career_goal, payload.preferred_language, payload.current_skill_level);
+      if (courseRes && courseRes.success && Array.isArray(courseRes.recommendations)) {
+        genData.roadmap.courses = courseRes.recommendations;
+      }
+
+      activeRoadmapId = genData.roadmapId;
+      renderRoadmap(genData.roadmap, payload);
+      setStatus('Roadmap generated successfully.');
+      localStorage.setItem('paperify_last_roadmap_id', activeRoadmapId);
+      history.replaceState({}, '', `/roadmap?roadmapId=${encodeURIComponent(activeRoadmapId)}`);
+    }
+
+    document.getElementById('openIntakeBtn').addEventListener('click', openIntakeModal);
+
+    intakeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      intakeError.classList.add('hidden');
+      intakeError.textContent = '';
+      const fd = new FormData(intakeForm);
+      const payload = Object.fromEntries(fd.entries());
+      payload.weekly_hours_available = Number(payload.weekly_hours_available || 6);
+      closeIntakeModal();
+      try {
+        await generateFromIntake(payload);
+      } catch (error) {
+        setStatus(error.message || 'Failed to generate roadmap', true);
+        intakeError.textContent = error.message || 'Failed to generate roadmap';
+        intakeError.classList.remove('hidden');
+        openIntakeModal();
+      }
+    });
+
+    (async function boot() {
+      const params = new URLSearchParams(window.location.search);
+      const roadmapId = params.get('roadmapId') || localStorage.getItem('paperify_last_roadmap_id') || '';
+      if (!roadmapId) {
+        setStatus('Fill intake form to start.');
+        return;
+      }
+      try {
+        setStatus('Loading saved roadmap...');
+        const res = await fetch(`/api/roadmap/${encodeURIComponent(roadmapId)}`);
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || 'Not found');
+        activeRoadmapId = roadmapId;
+        renderRoadmap(data.roadmap, { preferred_language: data.language });
+        localStorage.setItem('paperify_last_roadmap_id', roadmapId);
+        closeIntakeModal();
+        setStatus('Loaded saved roadmap.');
+      } catch (e) {
+        localStorage.removeItem('paperify_last_roadmap_id');
+        setStatus('Saved roadmap not found. Fill new intake.', true);
+        openIntakeModal();
+      }
+    })();
+  </script>
+</body>
+</html>

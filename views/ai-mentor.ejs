@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Career Mentor | Paperify</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .chat-message { animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .typing-indicator span { animation: blink 1.4s infinite; }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes blink { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+
+    <nav class="bg-white/80 backdrop-blur-md py-4 sticky top-0 z-50 border-b">
+        <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
+            <div class="text-2xl font-black text-slate-800">Paper<span class="text-emerald-600">ify</span> AI Mentor</div>
+            <a href="/" class="text-sm font-bold text-slate-600 hover:text-emerald-600">← Back</a>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden" style="height: 75vh; display: flex; flex-direction: column;">
+            
+            <!-- Chat Header -->
+            <div class="bg-gradient-to-r from-emerald-600 to-teal-600 p-6 text-white">
+                <h1 class="text-2xl font-bold mb-2">🤖 AI Career Mentor</h1>
+                <p class="text-sm opacity-90">Tell me your career goal, and I'll guide you step-by-step!</p>
+            </div>
+
+            <!-- Chat Messages -->
+            <div id="chatMessages" class="flex-1 overflow-y-auto p-6 space-y-4">
+                <div class="chat-message flex gap-3">
+                    <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-robot text-emerald-600"></i>
+                    </div>
+                    <div class="bg-slate-100 rounded-2xl rounded-tl-none p-4 max-w-[80%]">
+                        <p class="text-sm">👋 Hi! I'm your AI Career Mentor. What career goal do you have? For example:</p>
+                        <ul class="text-sm mt-2 space-y-1 text-slate-600">
+                            <li>• "I want to become a web developer"</li>
+                            <li>• "I want to learn graphic design"</li>
+                            <li>• "I want to be a data scientist"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="border-t p-4 bg-slate-50">
+                <div class="flex gap-2">
+                    <input 
+                        type="text" 
+                        id="userInput" 
+                        placeholder="Type your career goal or question..." 
+                        class="flex-1 px-4 py-3 rounded-full border-2 border-slate-200 focus:border-emerald-500 focus:outline-none"
+                        onkeypress="if(event.key==='Enter') sendMessage()"
+                    >
+                    <button 
+                        onclick="sendMessage()" 
+                        class="px-6 py-3 bg-emerald-600 text-white rounded-full font-bold hover:bg-emerald-700 transition"
+                    >
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <p class="text-xs text-slate-500 mt-2 text-center">Powered by Free AI • No login required</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        let conversationHistory = [];
+
+        // System prompt for the AI
+        const SYSTEM_PROMPT = `You are an expert career mentor. Guide users step-by-step to achieve their career goals.
+
+When a user tells you their career goal:
+1. First, explain what that career is and why it's valuable
+2. Explain the future prospects and demand
+3. Give a week-by-week learning plan (be specific with weeks, hours, and resources)
+4. Suggest 5 practical tasks/projects they should build
+5. Tell them where to learn for FREE (specific websites, YouTube channels)
+6. Tell them where to host projects for FREE (Vercel, Netlify, Railway, etc.)
+7. Tell them where to find freelance work (Upwork, Fiverr, etc.)
+8. Tell them what accounts to create (GitHub, LinkedIn, portfolio)
+
+Be conversational, encouraging, and specific. Use emojis occasionally. Break information into digestible chunks.`;
+
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message flex gap-3' + (isUser ? ' flex-row-reverse' : '');
+            
+            const avatar = document.createElement('div');
+            avatar.className = `w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${isUser ? 'bg-blue-100' : 'bg-emerald-100'}`;
+            avatar.innerHTML = `<i class="fas fa-${isUser ? 'user' : 'robot'} text-${isUser ? 'blue' : 'emerald'}-600"></i>`;
+            
+            const bubble = document.createElement('div');
+            bubble.className = `rounded-2xl p-4 max-w-[80%] ${isUser ? 'bg-blue-600 text-white rounded-tr-none' : 'bg-slate-100 rounded-tl-none'}`;
+            bubble.innerHTML = `<p class="text-sm whitespace-pre-wrap">${text}</p>`;
+            
+            if (isUser) {
+                messageDiv.appendChild(bubble);
+                messageDiv.appendChild(avatar);
+            } else {
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(bubble);
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typing';
+            typingDiv.className = 'chat-message flex gap-3';
+            typingDiv.innerHTML = `
+                <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-robot text-emerald-600"></i>
+                </div>
+                <div class="bg-slate-100 rounded-2xl rounded-tl-none p-4">
+                    <div class="typing-indicator flex gap-1">
+                        <span class="w-2 h-2 bg-slate-400 rounded-full"></span>
+                        <span class="w-2 h-2 bg-slate-400 rounded-full"></span>
+                        <span class="w-2 h-2 bg-slate-400 rounded-full"></span>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTyping() {
+            const typing = document.getElementById('typing');
+            if (typing) typing.remove();
+        }
+
+        async function getAIResponse(userMessage) {
+            // Using Google Gemini API (FREE - 60 requests/min)
+            const GEMINI_API_KEY = 'AIzaSyBAZl5UCngV2VygkKEZh_P5GJ9RiMCfyts';
+            
+            try {
+                const prompt = `You are an expert career mentor. User says: "${userMessage}"
+
+Provide detailed guidance:
+1. Explain what that career is
+2. Future prospects and salary
+3. Week-by-week learning plan (specific weeks, hours, resources)
+4. 5 practical projects to build
+5. Free learning resources (specific links)
+6. Free hosting platforms
+7. Freelancing platforms
+8. Important accounts to create
+
+Be conversational, specific, and encouraging.`;
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }]
+                    })
+                });
+
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                console.error('AI Error:', error);
+                return getFallbackResponse(userMessage);
+            }
+        }
+
+        function getFallbackResponse(userMessage) {
+            const msg = userMessage.toLowerCase();
+            
+            if (msg.includes('web') || msg.includes('developer') || msg.includes('website')) {
+                return `🚀 **Web Development - Excellent Choice!**
+
+📚 **What is a Web Developer?**
+Builds websites and web applications using HTML, CSS, JavaScript, React, Node.js. Creates digital experiences people use daily.
+
+💰 **Future & Salary:**
+Extremely high demand! $60k-$120k/year. Remote work worldwide. Every business needs websites.
+
+📅 **Week-by-Week Plan (24 weeks):**
+• Week 1-2: HTML & CSS (2-3 hrs/day) - freeCodeCamp
+• Week 3-4: JavaScript basics (3 hrs/day) - JavaScript.info
+• Week 5-8: React.js (4 hrs/day) - React.dev
+• Week 9-12: Node.js & APIs (4 hrs/day) - Node.js docs
+• Week 13-16: MongoDB (3 hrs/day) - MongoDB University
+• Week 17-24: Build 5 projects (5 hrs/day)
+
+🛠️ **5 Projects:**
+1. Portfolio website
+2. Todo app with database
+3. Weather app (API integration)
+4. Blog platform (full-stack)
+5. E-commerce site
+
+🎓 **Free Resources:**
+• freeCodeCamp.org - Complete certification
+• JavaScript.info - Best JS tutorial
+• React.dev - Official React docs
+• YouTube: Traversy Media, Web Dev Simplified
+
+🌐 **Free Hosting:**
+• Vercel, Netlify, Railway, Render, GitHub Pages
+
+💼 **Find Work:**
+• Upwork, Fiverr, Freelancer.com, Toptal
+
+📱 **Create Accounts:**
+• GitHub (showcase code)
+• LinkedIn (network)
+• Portfolio website
+• Stack Overflow
+
+Ready to start? Ask me anything!`;
+            }
+            
+            if (msg.includes('graphic') || msg.includes('design')) {
+                return `🎨 **Graphic Design - Creative Career!**
+
+📚 **What is a Graphic Designer?**
+Creates visual content for brands, social media, websites. Uses Photoshop, Illustrator, Figma.
+
+💰 **Future & Salary:**
+High demand! $40k-$80k/year. Freelance opportunities everywhere.
+
+📅 **Week-by-Week Plan (20 weeks):**
+• Week 1-2: Design principles (2 hrs/day) - Canva School
+• Week 3-6: Photoshop (3 hrs/day) - YouTube tutorials
+• Week 7-10: Illustrator (3 hrs/day) - Adobe tutorials
+• Week 11-14: Figma/UI design (3 hrs/day) - Figma docs
+• Week 15-20: Build portfolio (4 hrs/day)
+
+🛠️ **5 Projects:**
+1. Logo designs (5 different brands)
+2. Social media templates
+3. Brand identity package
+4. Mobile app UI design
+5. Marketing materials
+
+🎓 **Free Resources:**
+• YouTube: Satori Graphics, Will Paterson, The Futur
+• Canva Design School
+• Behance & Dribbble (inspiration)
+
+🌐 **Portfolio Platforms:**
+• Behance, Dribbble, Instagram
+
+💼 **Find Work:**
+• Fiverr, 99designs, Upwork, DesignCrowd
+
+📱 **Create Accounts:**
+• Behance (must have)
+• Dribbble
+• Instagram
+• LinkedIn
+
+What would you like to know more about?`;
+            }
+            
+            return `I'm here to guide you! Tell me your career goal:
+
+💻 "I want to become a web developer"
+🎨 "I want to learn graphic design"
+📊 "I want to be a data scientist"
+📱 "I want to build mobile apps"
+📈 "I want to learn digital marketing"
+
+Or ask me anything about learning a new skill!`;
+        }
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, true);
+            userInput.value = '';
+
+            // Show typing indicator
+            showTyping();
+
+            // Get AI response
+            const aiResponse = await getAIResponse(message);
+            
+            // Hide typing and show response
+            hideTyping();
+            addMessage(aiResponse, false);
+        }
+
+        // Focus input on load
+        window.onload = () => userInput.focus();
+    </script>
+
+</body>
+</html>

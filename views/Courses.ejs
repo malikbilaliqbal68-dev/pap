@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sources - Paperify Education</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --brand-green: #19c880;
+            --deep-navy: #3f3a64;
+            --soft-bg: #f8f1eb;
+        }
+
+        body { font-family: 'Inter', sans-serif; color: var(--deep-navy); background-color: #fff; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        .custom-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Card Styling */
+        .course-card {
+            background: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 35px;
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .course-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 40px 70px rgba(63, 58, 100, 0.1);
+            border-color: var(--brand-green);
+        }
+
+        /* The Main Single Start Button */
+        .btn-main-start {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--brand-green);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 16px 40px;
+            border-radius: 100px;
+            box-shadow: 0 10px 25px rgba(25, 200, 128, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-main-start:hover {
+            background-color: var(--deep-navy);
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(63, 58, 100, 0.2);
+        }
+
+        .category-badge {
+            background-color: rgba(25, 200, 128, 0.1);
+            color: var(--brand-green);
+            padding: 5px 12px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .img-wrapper {
+            position: relative;
+            border-radius: 25px;
+            overflow: hidden;
+            aspect-ratio: 16/10;
+        }
+
+        .course-card img {
+            transition: transform 0.8s ease;
+        }
+
+        .course-card:hover img {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-[#fcfaf8]">
+
+    <nav class="bg-[#f8f1eb] py-6 sticky top-0 z-50 border-b border-gray-100">
+        <div class="custom-container flex justify-between items-center">
+            <div class="text-3xl font-black tracking-tighter text-[#3f3a64]">Paper<span class="text-[#19c880]">ify</span></div>
+            <div class="hidden lg:flex items-center gap-12 text-[15px] font-bold text-[#3f3a64]">
+                <a href="/" class="hover:text-[#19c880]">Home</a>
+                <a href="/" class="text-[#19c880]">Courses</a>
+                <a href="/" class="hover:text-[#19c880]">Generate</a>
+                <i class="fa-regular fa-user-circle text-xl text-gray-400 cursor-pointer"></i>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-20 pb-16 text-center">
+        <div class="custom-container">
+            <h4 class="uppercase tracking-[0.4em] text-[10px] font-bold text-[#19c880] mb-4">Educational Sources</h4>
+            <h1 class="text-5xl font-black text-[#3f3a64] mb-4">Start Your <span class="text-[#19c880] italic">Evolution</span></h1>
+            <p class="text-gray-500 max-w-lg mx-auto text-sm mb-6">Explore our curated sources below and prepare for your transformation.</p>
+            
+            <a href="/ans" class="btn-main-start">
+                Let's Start <i class="fa-solid fa-bolt ml-3"></i>
+            </a>
+        </div>
+    </header>
+
+    <section class="custom-container pb-32">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            
+            <div class="course-card p-4">
+                <div class="img-wrapper mb-6">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800" class="w-full h-full object-cover">
+                </div>
+                <div class="px-4 pb-4">
+                    <span class="category-badge">Technology</span>
+                    <h3 class="text-2xl font-bold mt-4 mb-3">Modern Web Architecture</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed">Master high-speed development tools used by top tech companies globally.</p>
+                </div>
+            </div>
+
+            <div class="course-card p-4">
+                <div class="img-wrapper mb-6">
+                    <img src="https://images.unsplash.com/photo-1484417894907-623942c8ee29?w=800" class="w-full h-full object-cover">
+                </div>
+                <div class="px-4 pb-4">
+                    <span class="category-badge">Productivity</span>
+                    <h3 class="text-2xl font-bold mt-4 mb-3">Deep Work Systems</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed">Achieve extreme focus and double your output with cognitive science.</p>
+                </div>
+            </div>
+
+            <div class="course-card p-4">
+                <div class="img-wrapper mb-6">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800" class="w-full h-full object-cover">
+                </div>
+                <div class="px-4 pb-4">
+                    <span class="category-badge">Mentoring</span>
+                    <h3 class="text-2xl font-bold mt-4 mb-3">Strategic Leadership</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed">Advanced management for remote teams and professional growth.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="bg-[#3f3a64] py-12 text-center">
+        <div class="text-xl font-black text-white">Paper<span class="text-[#19c880]">ify</span></div>
+        <p class="text-gray-400 text-[10px] mt-2 uppercase tracking-widest">Reimagining Education</p>
+    </footer>
+
+</body>
+</html>

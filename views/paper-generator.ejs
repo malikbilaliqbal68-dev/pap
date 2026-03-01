@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <title>Official Board Paper | Paperify</title>
+
+
+  <link href="https://fonts.cdnfonts.com/css/noto-nastaliq-urdu" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Crimson+Pro:wght@400;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/demo-manager.js?v=20260225"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root {
+      --paper-width: 210mm;
+      --topbar-height: 56px;
+      --font-main: clamp(10.5px, 2.5vw, 13px);
+      --font-urdu: clamp(10px, 2.2vw, 12px);
+      --font-meta: clamp(9px, 2vw, 11px);
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      background: #f3f4f6;
+      font-family: "Times New Roman", "Crimson Pro", serif;
+      -webkit-print-color-adjust: exact;
+      color: #000;
+    }
+
+    .topbar {
+      width: 100%;
+      background: #ffffff;
+      border-bottom: 1px solid #e6e6e6;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      height: var(--topbar-height);
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar-inner {
+      max-width: calc(var(--paper-width) + 60px);
+      margin: 0 auto;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .topbar-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      background: #f3f4f6;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .btn {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      cursor: pointer;
+      font-weight: 600;
+      background: #fff;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        height: auto;
+        min-height: var(--topbar-height);
+      }
+      
+      .topbar-inner {
+        padding: 8px 12px;
+      }
+      
+      .btn {
+        font-size: 11px;
+        padding: 5px 8px;
+      }
+      
+      .chip {
+        font-size: 10px;
+        padding: 3px 6px;
+      }
+    }
+
+    .btn.primary {
+      background: #1f2937;
+      color: #fff;
+      border-color: #1f2937;
+    }
+
+    .btn.danger {
+      background: #dc2626;
+      color: #fff;
+      border-color: #dc2626;
+    }
+
+    .paper-sheet {
+      width: min(var(--paper-width), 98%);
+      margin: 15px auto;
+      background: #ffffff;
+      border: 1px solid #000;
+      padding: 6mm 8mm;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      min-height: 297mm;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .paper-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: rgba(17, 24, 39, 0.08);
+      transform: rotate(-28deg);
+      text-transform: uppercase;
+      z-index: 0;
+    }
+
+    .paper-sheet > *:not(.paper-watermark) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #000;
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+    }
+
+    .logo-block {
+      width: clamp(40px, 10vw, 55px);
+      height: clamp(40px, 10vw, 55px);
+      border: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+      background: #fff;
+    }
+
+    .logo-block img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .board-header {
+      text-align: center;
+      flex: 1;
+    }
+
+    .board-name {
+      font-weight: 900;
+      font-size: clamp(14px, 4vw, 17px);
+      margin-bottom: 1px;
+    }
+
+    .subject-line {
+      font-weight: 700;
+      font-size: clamp(11px, 3vw, 13px);
+    }
+
+    .paper-meta {
+      display: flex;
+      justify-content: center;
+      gap: clamp(10px, 5vw, 35px);
+      font-size: var(--font-meta);
+      font-weight: 800;
+      margin: 5px 0;
+    }
+
+    .student-info {
+      border: 1px solid #000;
+      padding: 4px 8px;
+      font-size: var(--font-meta);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px 15px;
+      margin-bottom: 10px;
+    }
+
+    .field-line {
+      border-bottom: 1px dotted #000;
+      display: inline-block;
+      min-width: clamp(60px, 15vw, 100px);
+      height: 11px;
+      margin-left: 4px;
+    }
+
+    .section-heading {
+      background: #ffffff;
+      color: black;
+      font-size: clamp(12px, 3.5vw, 14px);
+      font-weight: 800;
+      text-align: left;
+      padding: 2px 0;
+      margin: 12px 0 6px 0;
+    }
+
+    /* ADDED: Styling for Urdu-specific headings */
+    .section-heading.ur-heading {
+      text-align: right;
+      direction: rtl;
+      font-family: "Noto Nastaliq Urdu", serif;
+      font-size: clamp(14px, 4vw, 16px);
+      /* INCREASED from 10px to 16px */
+      line-height: 1.8;
+    }
+
+    .question-block {
+      width: 100%;
+      margin-bottom: 8px;
+      page-break-inside: avoid;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    /* Normal paragraph text — reduce boldness */
+    .question-block p,
+    .question-block .para,
+    .question-block .paragraph {
+      font-weight: 400 !important;
+      color: #555;
+      line-height: 1.5;
+    }
+
+
+    .question-block.ur-only {
+      direction: rtl !important;
+      text-align: right !important;
+      font-family: "Noto Nastaliq Urdu", serif;
+      display: flex !important;
+      flex-direction: row !important;
+      /* In RTL, row starts from RIGHT */
+    }
+
+    .question-block.ur-only .q-number {
+      text-align: right !important;
+      margin-left: 0 !important;
+      margin-right: 4px !important;
+      min-width: 30px !important;
+    }
+
+    .question-block.ur-only .q-main-container {
+      text-align: right !important;
+      flex: 1 !important;
+    }
+
+    .q-number {
+      font-weight: 800;
+      font-size: var(--font-meta);
+      min-width: clamp(20px, 5vw, 30px);
+      text-align: left;
+    }
+
+    .q-main-container {
+      flex: 1;
+    }
+
+    .q-content.bilingual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(8px, 2vw, 15px);
+      align-items: start;
+    }
+
+    .col-en {
+      text-align: left;
+      font-size: var(--font-main);
+      line-height: 1.3;
+    }
+
+    .col-ur {
+      text-align: right;
+      direction: rtl;
+      font-family: "Noto Nastaliq Urdu", serif;
+      font-size: var(--font-urdu);
+      line-height: 2.2;
+    }
+
+    .col-ur div {
+      font-family: "Noto Nastaliq Urdu", serif;
+    }
+
+    .question-block.ur-only .q-main-container {
+      font-family: "Noto Nastaliq Urdu", serif;
+      direction: rtl;
+      text-align: right;
+    }
+
+    .options-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      font-size: clamp(9px, 2.5vw, 11.5px);
+      margin-top: 3px;
+    }
+
+    .col-ur .options-list {
+      direction: rtl;
+      font-family: "Noto Nastaliq Urdu", serif;
+      font-size: var(--font-urdu);
+      text-align: right;
+    }
+
+    .ur-only .options-list {
+      direction: rtl;
+    }
+
+    /* Paragraph / comprehension text — lighter weight */
+    .paragraph-text {
+      font-weight: 400 !important;
+      color: #4b5563;
+      line-height: 1.65;
+      font-size: 0.8em;
+    }
+
+    .col-ur.paragraph-text {
+      font-weight: 400 !important;
+      line-height: 1.85;
+      font-size: 0.78em;
+      /* Slightly adjusted for Nastaliq */
+    }
+
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .paper-sheet {
+        margin: 0;
+        width: 100%;
+        border: none;
+        box-shadow: none;
+        padding: 5mm;
+      }
+
+      .topbar {
+        display: none;
+      }
+
+      .no-print {
+        display: none;
+      }
+
+      :root {
+        --font-main: 13px;
+        --font-urdu: 12px;
+        --font-meta: 11px;
+      }
+
+      .col-ur,
+      .question-block.ur-only {
+        font-family: "Noto Nastaliq Urdu", serif;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar no-print">
+    <div class="topbar-inner">
+      <div class="topbar-title">
+        <div style="font-size:18px; font-weight:800;">Paperify</div>
+        <div class="chip" id="topbarMeta">Preparing…</div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" onclick="setInstituteName()">Institute</button>
+        <button class="btn" onclick="createCollabLink()">Collab</button>
+        <button class="btn primary" onclick="sharePaper()">Share</button>
+        <button class="btn" onclick="window.print()">Print</button>
+        <button class="btn danger" onclick="window.history.back()">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="paper-sheet" id="paperRoot">
+    <div id="paperWatermark" class="paper-watermark"></div>
+    <div class="header-container">
+      <div class="logo-block"><img id="logoL" src="" onerror="this.parentElement.style.display='none'"></div>
+      <div class="board-header">
+        <div class="board-name" id="boardHeading">BOARD EXAMINATION 2026</div>
+        <div class="subject-line" id="subjectHeading"></div>
+      </div>
+      <div class="logo-block"><img id="logoR" src="" onerror="this.parentElement.style.display='none'"></div>
+    </div>
+
+    <div class="paper-meta">
+      <div id="displayTime">TIME: 3:00 HOURS</div>
+      <div id="displayMarks">MAXIMUM MARKS: —</div>
+    </div>
+
+    <div class="student-info">
+      <div>NAME: <span class="field-line"></span></div>
+      <div>ROLL NO: <span class="field-line"></span></div>
+      <div>SECTION: <span class="field-line"></span></div>
+      <div>CENTER: <span class="field-line"></span></div>
+    </div>
+
+    <div id="questionsContainer"></div>
+
+    <div class="mt-10 pt-2 border-t border-black text-center text-[9px] font-bold italic">
+      *** END OF EXAMINATION PAPER - Bilal OFFICIAL SYSTEM ***
+    </div>
+  </div>
+
+  <div id="historyModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-[120] no-print">
+    <div class="bg-white w-[min(900px,95%)] max-h-[80vh] rounded-xl overflow-hidden">
+      <div class="p-3 border-b flex items-center justify-between">
+        <div class="font-bold">Saved Papers History</div>
+        <button class="btn" onclick="closeHistoryModal()">Close</button>
+      </div>
+      <div id="historyList" class="p-4 overflow-y-auto max-h-[68vh]"></div>
+    </div>
+  </div>
+
+  <div id="weakAreaModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-[120] no-print">
+    <div class="bg-white w-[min(700px,95%)] rounded-xl overflow-hidden">
+      <div class="p-3 border-b flex items-center justify-between">
+        <div class="font-bold">Weak-Area Analytics</div>
+        <button class="btn" onclick="closeWeakAreaModal()">Close</button>
+      </div>
+      <div class="p-4">
+        <label class="font-semibold text-sm">Comma-separated weak chapters/topics</label>
+        <textarea id="weakAreasInput" class="w-full border rounded mt-2 p-2" rows="3" placeholder="e.g. Trigonometry identities, Translation paragraph, Verb forms"></textarea>
+        <div class="mt-3 flex gap-2">
+          <button class="btn primary" onclick="saveWeakAreas()">Save</button>
+          <button class="btn" onclick="loadWeakAreaAnalytics()">Refresh Report</button>
+        </div>
+        <div id="weakAreaReport" class="mt-4 text-sm"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const transferKey = urlParams.get('transfer');
+    let transferData = null;
+    if (transferKey) {
+      try {
+        const raw = sessionStorage.getItem(transferKey);
+        if (raw) transferData = JSON.parse(raw);
+      } catch (e) {
+        console.error('Failed to read transfer payload:', e);
+      }
+    }
+
+    let boardParam = (transferData?.board || urlParams.get('board') || 'Board').toLowerCase();
+    let className = transferData?.className || transferData?.class || urlParams.get('class') || '11';
+    let group = transferData?.group || urlParams.get('group');
+    const sharedPaperId = urlParams.get('shared');
+    // Safely parse selections and config from URL to avoid breaking the page
+    let selections = [];
+    if (transferData && Array.isArray(transferData.selections)) {
+      selections = transferData.selections;
+    } else {
+      try {
+        const rawSel = urlParams.get('selections');
+        if (!rawSel) {
+          selections = [];
+        } else {
+          try {
+            selections = JSON.parse(rawSel);
+          } catch (innerErr) {
+            selections = JSON.parse(decodeURIComponent(rawSel));
+          }
+        }
+      } catch (e) {
+        console.error('Failed to parse selections from URL, using empty selections', e);
+        selections = [];
+      }
+    }
+
+    const defaultConfig = { duration: '3 Hours', mcqs: { include: true, count: 10, marks: 1 }, asl: { include: false, count: 0, marks: 1 }, verb: { include: false, count: 0, marks: 1 }, short: { include: true, count: 5, marks: 2 }, long: { include: true, count: 3, marks: 5 }, theorem: { include: false, count: 1, marks: 8 }, paragraph: { include: true, count: 1, marks: 3 }, underline: { include: false, count: 0, marks: 1 }, rtc: { include: false, count: 1, marks: 5 } };
+    let config = JSON.parse(JSON.stringify(defaultConfig));
+    let currentPaperId = '';
+    let currentTotalMarks = 0;
+    const ownerEmail = localStorage.getItem('paperify_owner_email') || 'guest@paperify.local';
+    let instituteName = localStorage.getItem('paperify_institute_name') || '';
+    if (transferData && transferData.config && typeof transferData.config === 'object') {
+      config = transferData.config;
+    } else {
+      try {
+        const rawCfg = urlParams.get('config');
+        if (!rawCfg) {
+          config = JSON.parse(JSON.stringify(defaultConfig));
+        } else {
+          try {
+            config = JSON.parse(rawCfg);
+          } catch (innerErr) {
+            config = JSON.parse(decodeURIComponent(rawCfg));
+          }
+        }
+      } catch (e) {
+        console.error('Failed to parse config from URL, using default config', e);
+        config = JSON.parse(JSON.stringify(defaultConfig));
+      }
+    }
+
+    document.getElementById('topbarMeta').innerText = `${boardParam.toUpperCase()} • Class ${className}`;
+    document.getElementById('boardHeading').innerText = `${boardParam.toUpperCase()} BOARD EXAMINATION 2026`;
+
+    let subjectText = `GRADE ${className}`;
+    if (group && group !== 'null' && group !== '') {
+      subjectText = `${group.toUpperCase()} GROUP - ${subjectText}`;
+    }
+    document.getElementById('subjectHeading').innerText = subjectText;
+    document.getElementById('displayTime').innerText = `TIME: ${String(config.duration || '3 Hours').toUpperCase()}`;
+
+    const savedLogo = localStorage.getItem('paperify_logo');
+    if (savedLogo) {
+      document.getElementById('logoL').src = savedLogo;
+      document.getElementById('logoR').src = savedLogo;
+    }
+
+    function applyWatermark() {
+      const wm = document.getElementById('paperWatermark');
+      if (!wm) return;
+      wm.textContent = instituteName ? `${instituteName} - Paperify` : 'Paperify';
+    }
+
+    function setInstituteName() {
+      const val = prompt('Enter institute name for watermark and branding', instituteName || '');
+      if (val === null) return;
+      instituteName = val.trim();
+      localStorage.setItem('paperify_institute_name', instituteName);
+      applyWatermark();
+    }
+
+    applyWatermark();
+
+    function updatePaperMetaHeadings() {
+      document.getElementById('topbarMeta').innerText = `${boardParam.toUpperCase()} • Class ${className}`;
+      document.getElementById('boardHeading').innerText = `${boardParam.toUpperCase()} BOARD EXAMINATION 2026`;
+      document.getElementById('displayTime').innerText = `TIME: ${String(config.duration || '3 Hours').toUpperCase()}`;
+      document.getElementById('subjectHeading').innerText = group ? `${group.toUpperCase()} GROUP - GRADE ${className}` : `GRADE ${className}`;
+    }
+
+    function applyTransferDataToState(payload) {
+      if (!payload || typeof payload !== 'object') return;
+      boardParam = (payload.board || boardParam || 'Board').toLowerCase();
+      className = payload.className || payload.class || className;
+      group = payload.group || group;
+      if (Array.isArray(payload.selections)) selections = payload.selections;
+      if (payload.config && typeof payload.config === 'object') config = payload.config;
+      updatePaperMetaHeadings();
+    }
+
+    async function hydrateTransferFromServerIfNeeded() {
+      if (!transferKey || transferData) return;
+      try {
+        const response = await fetch(`/api/transfer/${encodeURIComponent(transferKey)}`);
+        if (!response.ok) return;
+        const result = await response.json();
+        if (result?.success && result.payload) {
+          transferData = result.payload;
+          applyTransferDataToState(transferData);
+        }
+      } catch (e) {
+        console.error('Failed to read transfer payload from server:', e);
+      }
+    }
+
+    function toRoman(num) {
+      const roman = { m: 1000, cm: 900, d: 500, cd: 400, c: 100, xc: 90, l: 50, xl: 40, x: 10, ix: 9, v: 5, iv: 4, i: 1 };
+      let str = '';
+      for (let i in roman) { while (num >= roman[i]) { str += i; num -= roman[i]; } }
+      return str;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function createTransferPayload(payload) {
+      const key = `paperify_transfer_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+      try {
+        sessionStorage.setItem(key, JSON.stringify(payload));
+      } catch (e) {
+        console.error('Failed to store transfer payload:', e);
+      }
+      return key;
+    }
+
+    function buildPaperUrl(paper) {
+      const key = createTransferPayload({
+        board: paper.board,
+        className: paper.className,
+        group: paper.group || '',
+        selections: paper.selections || [],
+        config: paper.config || {}
+      });
+      const params = new URLSearchParams({
+        board: paper.board || '',
+        class: paper.className || '',
+        group: paper.group || '',
+        transfer: key
+      });
+      return `/pape?${params.toString()}`;
+    }
+
+    function buildQuestionsUrl(paper) {
+      const key = createTransferPayload({
+        board: paper.board,
+        className: paper.className,
+        group: paper.group || '',
+        selections: paper.selections || []
+      });
+      const params = new URLSearchParams({
+        board: paper.board || '',
+        class: paper.className || '',
+        group: paper.group || '',
+        transfer: key
+      });
+      return `/questions?${params.toString()}`;
+    }
+
+    async function loadSharedPaperIfAny() {
+      if (!sharedPaperId) return;
+      const response = await fetch(`/api/papers/shared/${encodeURIComponent(sharedPaperId)}`);
+      const result = await response.json();
+      if (!result.success || !result.paper) return;
+      const paper = result.paper;
+      boardParam = paper.board || boardParam;
+      className = paper.className || className;
+      group = paper.group || group;
+      selections = paper.selections || selections;
+      config = paper.config || config;
+      instituteName = paper.instituteName || instituteName;
+      applyWatermark();
+      document.getElementById('topbarMeta').innerText = `${boardParam.toUpperCase()} • Class ${className}`;
+      document.getElementById('boardHeading').innerText = `${boardParam.toUpperCase()} BOARD EXAMINATION 2026`;
+      document.getElementById('displayTime').innerText = `TIME: ${String(config.duration || '3 Hours').toUpperCase()}`;
+      document.getElementById('subjectHeading').innerText = group ? `${group.toUpperCase()} GROUP - GRADE ${className}` : `GRADE ${className}`;
+      await fetch(`/api/papers/collab/${encodeURIComponent(sharedPaperId)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ editorEmail: ownerEmail })
+      });
+    }
+
+    async function sharePaper() {
+      try {
+        // First convert to PDF
+        const element = document.getElementById('paperRoot');
+        const opt = {
+          margin: [5, 5, 5, 5],
+          filename: `paper-class-${className}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Generate PDF as blob
+        const pdf = await html2pdf().set(opt).from(element).outputPdf('blob');
+
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([pdf], 'exam-paper.pdf', { type: 'application/pdf' })] })) {
+          // Mobile share with PDF
+          await navigator.share({
+            title: 'Exam Paper - Paperify',
+            text: 'Check out my exam paper generated on Paperify',
+            files: [new File([pdf], `paper-class-${className}.pdf`, { type: 'application/pdf' })]
+          });
+        } else {
+          // Fallback to WhatsApp with link
+          const text = `📝 Board Paper Class ${className}:\n${window.location.href}\n\nGenerated on Paperify - The Smart Paper Generator`;
+          window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+        }
+      } catch (error) {
+        console.error('Share failed:', error);
+        // Fallback to basic share
+        const text = `Board Paper Class ${className}: ${window.location.href}`;
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: 'Paperify Exam', text });
+          } catch (e) {
+            // User cancelled or share not available
+          }
+        } else {
+          window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+        }
+      }
+    }
+
+    async function exportToPDF() {
+      try {
+        const element = document.getElementById('paperRoot');
+        const opt = {
+          margin: [5, 5, 5, 5],
+          filename: `paper-class-${className}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        await html2pdf().set(opt).from(element).save();
+      } catch (error) {
+        console.error('PDF export failed:', error);
+        alert('Failed to export PDF. Please try again.');
+      }
+    }
+
+    async function saveCurrentPaper(showMessage = false) {
+      try {
+        const response = await fetch('/api/papers/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ownerEmail,
+            board: boardParam,
+            className,
+            group: group || '',
+            selections,
+            config,
+            totalMarks: currentTotalMarks,
+            instituteName,
+            title: `${boardParam.toUpperCase()} Class ${className} - ${new Date().toLocaleDateString()}`
+          })
+        });
+        const result = await response.json();
+        if (result.success) {
+          currentPaperId = result.paper.paperId;
+          if (showMessage) alert('Paper saved to history.');
+        } else if (showMessage) {
+          alert(result.error || 'Failed to save paper');
+        }
+      } catch (error) {
+        if (showMessage) alert('Failed to save paper');
+      }
+    }
+
+    async function openHistoryModal() {
+      const modal = document.getElementById('historyModal');
+      const list = document.getElementById('historyList');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      list.innerHTML = '<div class="text-sm text-gray-500">Loading...</div>';
+      try {
+        const response = await fetch(`/api/papers/history?ownerEmail=${encodeURIComponent(ownerEmail)}`);
+        const result = await response.json();
+        if (!result.success || !Array.isArray(result.papers) || result.papers.length === 0) {
+          list.innerHTML = '<div class="text-sm text-gray-500">No saved papers yet.</div>';
+          return;
+        }
+        list.innerHTML = result.papers.map(p => `
+          <div class="border rounded-lg p-3 mb-3">
+            <div class="font-semibold">${escapeHtml(p.title || 'Saved Paper')}</div>
+            <div class="text-xs text-gray-500 mt-1">${escapeHtml(p.board.toUpperCase())} • Class ${escapeHtml(String(p.className))} • ${new Date(p.createdAt).toLocaleString()}</div>
+            <div class="mt-2 flex gap-2">
+              <button class="btn" onclick="window.location.href='${buildPaperUrl(p)}'">Regenerate</button>
+              <button class="btn" onclick="window.location.href='${buildQuestionsUrl(p)}'">Edit</button>
+              <button class="btn" onclick="shareHistoryPaper('${p.paperId}')">Share/Collab</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (error) {
+        list.innerHTML = '<div class="text-sm text-red-600">Failed to load history.</div>';
+      }
+    }
+
+    function closeHistoryModal() {
+      const modal = document.getElementById('historyModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    async function shareHistoryPaper(paperId) {
+      await createCollabLink(paperId);
+    }
+
+    async function createCollabLink(paperIdOverride = '') {
+      try {
+        const paperId = paperIdOverride || currentPaperId;
+        if (!paperId) {
+          alert('Save the paper first to create collaboration link.');
+          return;
+        }
+        const response = await fetch(`/api/papers/share/${encodeURIComponent(paperId)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ownerEmail })
+        });
+        const result = await response.json();
+        if (!result.success) {
+          alert(result.error || 'Failed to create collab link');
+          return;
+        }
+        prompt('Share this link with your institute staff for co-edit', result.shareUrl);
+      } catch (error) {
+        alert('Failed to create collaboration link.');
+      }
+    }
+
+    async function shareOnWhatsApp() {
+      try {
+        const element = document.getElementById('paperRoot');
+        const opt = {
+          margin: [5, 5, 5, 5],
+          filename: `paper-class-${className}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        const pdf = await html2pdf().set(opt).from(element).outputPdf('blob');
+        const message = `Paper from ${instituteName || 'Paperify'} - Class ${className}`;
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([pdf], 'exam-paper.pdf', { type: 'application/pdf' })] })) {
+          await navigator.share({
+            title: `Exam Paper - ${instituteName || 'Paperify'}`,
+            text: message,
+            files: [new File([pdf], `paper-class-${className}.pdf`, { type: 'application/pdf' })]
+          });
+          return;
+        }
+        window.open(`https://wa.me/?text=${encodeURIComponent(`${message}\n${window.location.href}`)}`, '_blank');
+      } catch (error) {
+        window.open(`https://wa.me/?text=${encodeURIComponent(`Exam Paper Class ${className}\n${window.location.href}`)}`, '_blank');
+      }
+    }
+
+    function openWeakAreaModal() {
+      const modal = document.getElementById('weakAreaModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      loadWeakAreaAnalytics();
+    }
+
+    function closeWeakAreaModal() {
+      const modal = document.getElementById('weakAreaModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    async function saveWeakAreas() {
+      const input = document.getElementById('weakAreasInput');
+      const areas = String(input.value || '')
+        .split(',')
+        .map(v => v.trim())
+        .filter(Boolean);
+      if (!areas.length) {
+        alert('Please add at least one weak area.');
+        return;
+      }
+      await fetch('/api/analytics/record', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ownerEmail,
+          paperId: currentPaperId,
+          board: boardParam,
+          className,
+          weakAreas: areas
+        })
+      });
+      input.value = '';
+      loadWeakAreaAnalytics();
+    }
+
+    async function loadWeakAreaAnalytics() {
+      const report = document.getElementById('weakAreaReport');
+      report.innerHTML = 'Loading...';
+      try {
+        const response = await fetch(`/api/analytics/weak-areas?ownerEmail=${encodeURIComponent(ownerEmail)}`);
+        const result = await response.json();
+        if (!result.success || !result.weakAreas || result.weakAreas.length === 0) {
+          report.innerHTML = '<div class="text-gray-500">No weak-area records yet.</div>';
+          return;
+        }
+        report.innerHTML = result.weakAreas.map(item => `
+          <div class="flex justify-between border-b py-1">
+            <span>${escapeHtml(item.area)}</span>
+            <strong>${item.count}</strong>
+          </div>
+        `).join('');
+      } catch (error) {
+        report.innerHTML = '<div class="text-red-600">Failed to load analytics.</div>';
+      }
+    }
+
+    async function generatePaper() {
+      await hydrateTransferFromServerIfNeeded();
+      await loadSharedPaperIfAny();
+      if (window.checkBeforeGenerate && !await window.checkBeforeGenerate()) {
+        return;
+      }
+
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '<div id="loadingIndicator" style="padding:20px;text-align:center;font-weight:700;">⏳ Loading paper...</div>';
+      
+      // Use setTimeout to allow UI to update before heavy processing
+      setTimeout(async () => {
+      try {
+        const syllabusCacheKey = `paperify_syllabus_${boardParam}`;
+        let syllabus = null;
+        const cachedSyllabus = sessionStorage.getItem(syllabusCacheKey);
+        if (cachedSyllabus) {
+          try {
+            syllabus = JSON.parse(cachedSyllabus);
+            console.log('✅ Using cached syllabus');
+          } catch (e) {
+            sessionStorage.removeItem(syllabusCacheKey);
+          }
+        }
+        if (!syllabus) {
+          console.log('📥 Fetching syllabus from server...');
+          const response = await fetch(`/api/data/${boardParam}`);
+          syllabus = await response.json();
+          try {
+            sessionStorage.setItem(syllabusCacheKey, JSON.stringify(syllabus));
+          } catch (e) {
+            console.warn('Cache storage failed:', e);
+          }
+        }
+        const classData = syllabus.find(c => String(c.class) === String(className));
+        
+        console.log('✅ Class data found:', classData ? 'YES' : 'NO');
+        console.log('📋 Selections:', selections);
+        
+        if (!classData) {
+          container.innerHTML = '<div style="padding:20px;color:red;font-weight:700;">Class data not found</div>';
+          return;
+        }
+
+        let pools = { mcqs: [], short: [], long: [], summary: [], theorem: [], asl: [], verb: [], underline: [], paragraph: [], rtc: [], prose: [], poem: [] };
+        let totalExamMarks = 0;
+
+        // ADDED: Demo questions as fallback
+        const demoMCQs = [
+          { question: "What is the capital of Pakistan?", question_ur: "پاکستان کا دارالحکومت کیا ہے؟", options: ["Karachi", "Lahore", "Islamabad", "Peshawar"], options_ur: ["کراچی", "لاہور", "اسلام آباد", "پشاور"] },
+          { question: "Which is the largest planet?", question_ur: "سب سے بڑا سیارہ کون سا ہے؟", options: ["Earth", "Mars", "Jupiter", "Saturn"], options_ur: ["زمین", "مریخ", "مشتری", "زحل"] },
+          { question: "What is 2 + 2?", question_ur: "2 + 2 کیا ہے؟", options: ["3", "4", "5", "6"], options_ur: ["3", "4", "5", "6"] },
+          { question: "Who is the founder of Pakistan?", question_ur: "پاکستان کے بانی کون ہیں؟", options: ["Allama Iqbal", "Quaid-e-Azam", "Liaquat Ali", "Fatima Jinnah"], options_ur: ["علامہ اقبال", "قائداعظم", "لیاقت علی خان", "فاطمہ جناح"] },
+          { question: "Chemical symbol for water?", question_ur: "پانی کی کیمیائی علامت؟", options: ["H2O", "CO2", "O2", "N2"], options_ur: ["H2O", "CO2", "O2", "N2"] },
+          { question: "How many provinces in Pakistan?", question_ur: "پاکستان میں کتنے صوبے ہیں؟", options: ["3", "4", "5", "6"], options_ur: ["3", "4", "5", "6"] },
+          { question: "Speed of light?", question_ur: "روشنی کی رفتار؟", options: ["300,000 km/s", "150,000 km/s", "450,000 km/s", "600,000 km/s"], options_ur: ["300,000 کلومیٹر فی سیکنڈ", "150,000 کلومیٹر فی سیکنڈ", "450,000 کلومیٹر فی سیکنڈ", "600,000 کلومیٹر فی سیکنڈ"] },
+          { question: "Which gas do plants absorb?", question_ur: "پودے کون سی گیس جذب کرتے ہیں؟", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"], options_ur: ["آکسیجن", "نائٹروجن", "کاربن ڈائی آکسائیڈ", "ہائیڈروجن"] },
+          { question: "Boiling point of water?", question_ur: "پانی کا ابلتا نقطہ؟", options: ["50°C", "75°C", "100°C", "125°C"], options_ur: ["50°C", "75°C", "100°C", "125°C"] },
+          { question: "Who wrote Pakistan's anthem?", question_ur: "پاکستان کا قومی ترانہ کس نے لکھا؟", options: ["Allama Iqbal", "Hafeez Jalandhari", "Faiz Ahmed Faiz", "Josh Malihabadi"], options_ur: ["علامہ اقبال", "حفیظ جالندھری", "فیض احمد فیض", "جوش ملیح آبادی"] }
+        ];
+
+        const demoShort = [
+          { en: "Define photosynthesis.", ur: "فوٹو سنتھیسز کی تعریف کریں۔" },
+          { en: "What is Newton's first law?", ur: "نیوٹن کا پہلا قانون کیا ہے؟" },
+          { en: "Explain the water cycle.", ur: "پانی کے چکر کی وضاحت کریں۔" },
+          { en: "What is democracy?", ur: "جمہوریت کیا ہے؟" },
+          { en: "Define ecosystem.", ur: "ماحولیاتی نظام کی تعریف کریں۔" }
+        ];
+
+        const demoLong = [
+          { en: "Discuss the importance of education in society.", ur: "معاشرے میں تعلیم کی اہمیت پر بحث کریں۔" },
+          { en: "Explain the process of cell division.", ur: "خلیے کی تقسیم کے عمل کی وضاحت کریں۔" },
+          { en: "Describe the causes of climate change.", ur: "موسمیاتی تبدیلی کی وجوہات بیان کریں۔" }
+        ];
+
+        // ADDED: Flag to detect if English exists in the selections
+        let hasEnglish = false;
+        let isEnglishSubject = false;
+
+        selections.forEach(sel => {
+          // Check if this subject is English
+          if (sel.subject.toLowerCase().trim() === 'english') {
+            isEnglishSubject = true;
+          }
+
+          // Try multiple ways to find the subject
+          // Helper for robust matching
+          const normalize = (s) => String(s || '').trim().toLowerCase();
+
+          // Try to find the subject
+          let subject = classData.subjects.find(s => normalize(s.name?.en) === normalize(sel.subject));
+          if (!subject) subject = classData.subjects.find(s => normalize(s.name) === normalize(sel.subject));
+          if (!subject) subject = classData.subjects.find(s => normalize(s.name?.ur) === normalize(sel.subject));
+          if (!subject) {
+            console.log(`Subject not found: ${sel.subject}`);
+            return;
+          }
+
+          sel.chapters.forEach(chapObj => {
+            const chapTitle = typeof chapObj === 'string' ? chapObj : (chapObj.title || chapObj);
+            const selectedTopics = (typeof chapObj === 'object' && chapObj.topics) ? chapObj.topics : [];
+            
+            console.log('Processing chapter:', chapTitle, 'with topics:', selectedTopics);
+            
+            const ch = subject.chapters.find(c => {
+              const cEn = c.title?.en || c.chapter?.en || (typeof c.chapter === 'string' ? c.chapter : '');
+              const cUr = c.title?.ur || c.chapter?.ur || '';
+              const cPlain = typeof c.chapter === 'string' ? c.chapter : '';
+              const target = typeof chapTitle === 'object' ? (chapTitle.en || chapTitle.ur || '') : chapTitle;
+              return normalize(cEn) === normalize(target) || normalize(cUr) === normalize(target) || normalize(cPlain) === normalize(target);
+            });
+            if (!ch) {
+              console.log('Chapter not found:', chapTitle);
+              return;
+            }
+
+            const addFromSourceCompat = (src) => {
+              if (!src || typeof src !== 'object') return;
+              const hasUrdu = (t) => /[\u0600-\u06FF]/.test(String(t || ''));
+              const toArray = (v) => {
+                if (!v) return [];
+                if (Array.isArray(v)) return v;
+                if (typeof v === 'object') return Object.values(v).flat();
+                return [v];
+              };
+              const getText = (item, pref = 'en') => {
+                if (typeof item === 'string') return item.trim();
+                if (!item || typeof item !== 'object') return '';
+                if (pref === 'ur') return String(item.ur || item.question_ur || item.text_ur || '').trim();
+                return String(item.en || item.question || item.sentence || item.text || item.title || '').trim();
+              };
+
+              const mcqSource = src.mcqs || src.mcqs_extended || src.mcq_pick_questions || src.objective_questions;
+              if (Array.isArray(mcqSource)) {
+                mcqSource.forEach(q => {
+                  const enText = getText(q, 'en');
+                  const urText = getText(q, 'ur') || (hasUrdu(enText) ? enText : '');
+                  const options = Array.isArray(q?.options) ? q.options : (Array.isArray(q?.choices) ? q.choices : []);
+                  const optionsUr = Array.isArray(q?.options_ur) ? q.options_ur : (Array.isArray(q?.choices_ur) ? q.choices_ur : []);
+                  if (enText || urText) pools.mcqs.push({ en: enText || urText, ur: urText, options, options_ur: optionsUr });
+                });
+              }
+
+              const sEn = toArray(src.short_questions || src.short_questions_list || src.short || src.questions_short);
+              const sUr = toArray(src.short_questions_ur || src.short_ur || src.questions_short_ur);
+              const sMax = Math.max(sEn.length, sUr.length);
+              for (let i = 0; i < sMax; i++) {
+                const enText = getText(sEn[i], 'en');
+                const urText = getText(sUr[i], 'ur') || (hasUrdu(enText) ? enText : '');
+                if (enText || urText) pools.short.push({ en: enText || urText, ur: urText });
+              }
+
+              const lEn = toArray(src.long_questions || src.long_questions_list || src.long || src.questions_long);
+              const lUr = toArray(src.long_questions_ur || src.long_ur || src.questions_long_ur);
+              const lMax = Math.max(lEn.length, lUr.length);
+              for (let i = 0; i < lMax; i++) {
+                const enText = getText(lEn[i], 'en');
+                const urText = getText(lUr[i], 'ur') || (hasUrdu(enText) ? enText : '');
+                if (enText || urText) pools.long.push({ en: enText || urText, ur: urText });
+              }
+
+              if (Array.isArray(src.paragraphs_for_explanation)) {
+                src.paragraphs_for_explanation.forEach(p => pools.paragraph.push({
+                  title: p.title_ur || p.title || '',
+                  en: p.title_ur || p.title || '',
+                  ur: p.title_ur || '',
+                  fullContent: p.content || p.text || '',
+                  questions: [],
+                  questions_ur: [],
+                  isParagraph: true
+                }));
+              }
+              if (Array.isArray(src.poems_for_explanation)) {
+                src.poems_for_explanation.forEach(p => pools.paragraph.push({
+                  title: p.title_ur || p.title || '',
+                  en: p.title_ur || p.title || '',
+                  ur: p.title_ur || '',
+                  fullContent: p.content || p.text || '',
+                  questions: [],
+                  questions_ur: [],
+                  isParagraph: true
+                }));
+              }
+              if (src.prose_questions && typeof src.prose_questions === 'object') {
+                Object.values(src.prose_questions).flat().forEach(q => {
+                  const t = String(q || '').trim();
+                  if (t) pools.prose.push({ en: t, ur: t });
+                });
+              }
+              if (src.poem_questions && typeof src.poem_questions === 'object') {
+                Object.values(src.poem_questions).flat().forEach(q => {
+                  const t = String(q || '').trim();
+                  if (t) pools.poem.push({ en: t, ur: t });
+                });
+              }
+              const poemLikeSources = [src.poem, src.poems, src.ashaar, src.ashaars, src.share, src.sher];
+              poemLikeSources.forEach(ps => {
+                toArray(ps).forEach(item => {
+                  const enText = getText(item, 'en');
+                  const urText = getText(item, 'ur') || (hasUrdu(enText) ? enText : '');
+                  if (enText || urText) {
+                    pools.poem.push({
+                      en: enText || urText,
+                      ur: urText || enText,
+                      fullContent: (typeof item === 'object' && item !== null) ? (item.content || item.text || '') : ''
+                    });
+                  }
+                });
+              });
+            };
+            addFromSourceCompat(ch);
+
+            if (ch.mcqs) {
+              ch.mcqs.forEach(mcq => {
+                pools.mcqs.push(mcq);
+                if (mcq.question || mcq.en) hasEnglish = true;
+              });
+            }
+
+            // ADDED: Handle ASL / MCQ Pick Questions
+            // FIXED: Push to 'mcqs' pool as well to ensure they appear under standard MCQs
+            if (ch.mcq_pick_questions) {
+              ch.mcq_pick_questions.forEach(q => {
+                pools.mcqs.push(q); // Add to main MCQ pool for display
+                pools.asl.push(q);  // Keep in ASL just in case
+                if (q.question || q.en) hasEnglish = true;
+              });
+            }
+
+            // ADDED: Handle Verb Form Questions (English subject - mcq_form_of_verb)
+            if (ch.mcq_form_of_verb) {
+              ch.mcq_form_of_verb.forEach(q => {
+                pools.verb.push(q);
+                if (q.question || q.en) hasEnglish = true;
+              });
+            }
+
+            // ADDED: Handle Underlined Words Questions (English subject)
+            if (ch.mcq_underlined_words) {
+              ch.mcq_underlined_words.forEach(q => {
+                pools.underline.push(q);
+                if (q.sentence || q.en) hasEnglish = true;
+              });
+            }
+
+            // ADDED: Handle Translate to Urdu (English subject - paragraph translation)
+            if (ch.translate_to_urdu) {
+              ch.translate_to_urdu.forEach(q => {
+                pools.paragraph.push({ en: q.text || q.en || '', ur: 'For Translation' });
+                if (q.text || q.en) hasEnglish = true;
+              });
+            }
+
+            // ADDED: Handle Reference to Context (English subject)
+            if (ch.reference_to_context) {
+              ch.reference_to_context.forEach(q => {
+                pools.rtc.push({ en: q.text || q.en || '', ur: 'Reference Text' });
+                if (q.text || q.en) hasEnglish = true;
+              });
+            }
+            if (ch.prose_questions && typeof ch.prose_questions === 'object') {
+              Object.values(ch.prose_questions).flat().forEach(q => {
+                const text = String(q || '').trim();
+                if (text) pools.prose.push({ en: text, ur: text });
+              });
+            }
+            if (ch.poem_questions && typeof ch.poem_questions === 'object') {
+              Object.values(ch.poem_questions).flat().forEach(q => {
+                const text = String(q || '').trim();
+                if (text) pools.poem.push({ en: text, ur: text });
+              });
+            }
+            if (Array.isArray(ch.paragraphs_for_explanation)) {
+              ch.paragraphs_for_explanation.forEach(p => {
+                pools.paragraph.push({
+                  title: p.title_ur || p.title || '',
+                  en: p.title_ur || p.title || '',
+                  ur: p.title_ur || '',
+                  fullContent: p.content || p.text || '',
+                  questions: [],
+                  questions_ur: [],
+                  isParagraph: true
+                });
+              });
+            }
+            if (Array.isArray(ch.poems_for_explanation)) {
+              ch.poems_for_explanation.forEach(p => {
+                pools.paragraph.push({
+                  title: p.title_ur || p.title || '',
+                  en: p.title_ur || p.title || '',
+                  ur: p.title_ur || '',
+                  fullContent: p.content || p.text || '',
+                  questions: [],
+                  questions_ur: [],
+                  isParagraph: true
+                });
+              });
+            }
+
+            if (ch.short_questions) {
+              ch.short_questions.forEach((q, i) => {
+                const enText = typeof q === 'string' ? q : (q.en || q.question || '');
+                if (enText) hasEnglish = true;
+                pools.short.push({
+                  en: enText,
+                  ur: (ch.short_questions_ur && ch.short_questions_ur[i]) ? ch.short_questions_ur[i] : (q.ur || q.question_ur || '')
+                });
+              });
+            }
+            if (ch.short_questions_ur && (!ch.short_questions || ch.short_questions_ur.length > ch.short_questions.length)) {
+              ch.short_questions_ur.slice(ch.short_questions ? ch.short_questions.length : 0).forEach(q => pools.short.push({ en: '', ur: q }));
+            }
+
+            if (ch.long_questions) {
+              ch.long_questions.forEach((q, i) => {
+                const enText = typeof q === 'string' ? q : (q.en || q.question || '');
+                if (enText) hasEnglish = true;
+                pools.long.push({
+                  en: enText,
+                  ur: (ch.long_questions_ur && ch.long_questions_ur[i]) ? ch.long_questions_ur[i] : (q.ur || q.question_ur || '')
+                });
+              });
+            }
+            if (ch.long_questions_ur && (!ch.long_questions || ch.long_questions_ur.length > ch.long_questions.length)) {
+              ch.long_questions_ur.slice(ch.long_questions ? ch.long_questions.length : 0).forEach(q => pools.long.push({ en: '', ur: q }));
+            }
+
+            const addSummaryFromSource = (src) => {
+              const pushSummary = (text, type = 'summary') => {
+                const t = String(text || '').trim();
+                if (!t) return;
+                pools.summary.push({ en: t, ur: /[\u0600-\u06FF]/.test(t) ? t : '', type });
+              };
+              const summaryObj = src.summary || src.Summary || src.khulasa;
+              if (summaryObj) {
+                if (typeof summaryObj === 'string') pushSummary(summaryObj, 'summary');
+                else if (Array.isArray(summaryObj)) summaryObj.forEach(s => pushSummary(typeof s === 'string' ? s : (s?.title || s?.en || s?.ur || s?.text || ''), 'summary'));
+                else if (typeof summaryObj === 'object') pushSummary(summaryObj.title || summaryObj.en || summaryObj.ur || summaryObj.text || 'خلاصہ لکھیں', 'summary');
+              }
+              const markazi = src.markazi_khayal || src.markaziKhayal;
+              if (markazi) {
+                if (Array.isArray(markazi)) {
+                  markazi.forEach(m => {
+                    if (typeof m === 'string') pushSummary(m, 'markazi');
+                    else if (m && typeof m === 'object') pushSummary(m.poem_name ? `مرکزی خیال لکھیں: ${m.poem_name}` : (m.title ? `مرکزی خیال لکھیں: ${m.title}` : 'مرکزی خیال لکھیں'), 'markazi');
+                  });
+                } else if (typeof markazi === 'object') {
+                  pushSummary(markazi.poem_name ? `مرکزی خیال لکھیں: ${markazi.poem_name}` : (markazi.title ? `مرکزی خیال لکھیں: ${markazi.title}` : 'مرکزی خیال لکھیں'), 'markazi');
+                } else if (typeof markazi === 'string') {
+                  pushSummary(markazi, 'markazi');
+                }
+              }
+            };
+            addSummaryFromSource(ch);
+
+            if (ch.theorem) {
+              ch.theorem.forEach((t, i) => {
+                if (t) hasEnglish = true;
+                pools.theorem.push({
+                  en: t || '',
+                  ur: (ch.theorem_ur && ch.theorem_ur[i]) ? ch.theorem_ur[i] : ''
+                });
+              });
+            }
+
+            // ADDED: Handle paragraphs (comprehension) from English subject (Chapter Level)
+            if (ch.paragraphs && Array.isArray(ch.paragraphs)) {
+              ch.paragraphs.forEach(para => {
+                if (para.text || para.en) {
+                  if (para.text || para.en) hasEnglish = true;
+                  const rawQ = para.questions || [];
+                  const processedQuestions = rawQ.map(q => {
+                    if (!q) return '';
+                    if (typeof q === 'string') return q.trim();
+                    if (typeof q === 'object') return String(q.en || q.question || q.text || '').trim();
+                    return String(q).trim();
+                  }).filter(q => q);
+
+                  // Fallback to Urdu questions if no English questions available
+                  let questionsFinal = processedQuestions;
+                  if (questionsFinal.length === 0 && Array.isArray(para.questions_ur) && para.questions_ur.length > 0) {
+                    questionsFinal = para.questions_ur.map(q => (typeof q === 'string' ? q.trim() : String(q).trim())).filter(q => q);
+                  }
+
+                  pools.paragraph.push({
+                    title: para.title || para.en || '',
+                    en: para.text || para.en || '',
+                    ur: para.ur || '',
+                    questions: questionsFinal,
+                    questions_ur: para.questions_ur || [],
+                    isParagraph: true
+                  });
+                }
+              });
+            }
+
+            if (ch.topics && selectedTopics.length > 0) {
+              console.log('Filtering by topics:', selectedTopics);
+              ch.topics.forEach(t => {
+                const topicName = (t.topic && typeof t.topic === 'object') ? t.topic.en : t.topic;
+                const normalizedTopicName = String(topicName || '').trim();
+                const normalizedSelectedTopics = selectedTopics.map(st => String(st || '').trim());
+                
+                if (normalizedSelectedTopics.includes(normalizedTopicName)) {
+                  console.log('Including topic:', normalizedTopicName);
+                  addFromSourceCompat(t);
+                  if (t.mcqs) t.mcqs.forEach(mcq => { pools.mcqs.push(mcq); if (mcq.question || mcq.en) hasEnglish = true; });
+                  if (t.mcq_pick_questions) t.mcq_pick_questions.forEach(q => { pools.mcqs.push(q); pools.asl.push(q); if (q.question || q.en) hasEnglish = true; });
+                  if (t.mcq_form_of_verb) t.mcq_form_of_verb.forEach(q => { pools.verb.push(q); if (q.question || q.en) hasEnglish = true; });
+                  if (t.mcq_underlined_words) t.mcq_underlined_words.forEach(q => { pools.underline.push(q); if (q.sentence || q.en) hasEnglish = true; });
+                  if (t.translate_to_urdu) t.translate_to_urdu.forEach(q => { pools.paragraph.push({ en: q.text || q.en || '', ur: 'For Translation' }); if (q.text || q.en) hasEnglish = true; });
+                  if (t.reference_to_context) t.reference_to_context.forEach(q => { pools.rtc.push({ en: q.text || q.en || '', ur: 'Reference Text' }); if (q.text || q.en) hasEnglish = true; });
+                  if (t.prose_questions && typeof t.prose_questions === 'object') Object.values(t.prose_questions).flat().forEach(q => { const text = String(q || '').trim(); if (text) pools.prose.push({ en: text, ur: text }); });
+                  if (t.poem_questions && typeof t.poem_questions === 'object') Object.values(t.poem_questions).flat().forEach(q => { const text = String(q || '').trim(); if (text) pools.poem.push({ en: text, ur: text }); });
+                  if (Array.isArray(t.paragraphs_for_explanation)) t.paragraphs_for_explanation.forEach(p => pools.paragraph.push({ title: p.title_ur || p.title || '', en: p.title_ur || p.title || '', ur: p.title_ur || '', fullContent: p.content || p.text || '', questions: [], questions_ur: [], isParagraph: true }));
+                  if (Array.isArray(t.poems_for_explanation)) t.poems_for_explanation.forEach(p => pools.paragraph.push({ title: p.title_ur || p.title || '', en: p.title_ur || p.title || '', ur: p.title_ur || '', fullContent: p.content || p.text || '', questions: [], questions_ur: [], isParagraph: true }));
+                  if (t.short_questions) t.short_questions.forEach((q, i) => { const enText = typeof q === 'string' ? q : (q.en || q.question || ''); if (enText) hasEnglish = true; pools.short.push({ en: enText, ur: (t.short_questions_ur && t.short_questions_ur[i]) ? t.short_questions_ur[i] : (q.ur || q.question_ur || '') }); });
+                  if (t.long_questions) t.long_questions.forEach((q, i) => { const enText = typeof q === 'string' ? q : (q.en || q.question || ''); if (enText) hasEnglish = true; pools.long.push({ en: enText, ur: (t.long_questions_ur && t.long_questions_ur[i]) ? t.long_questions_ur[i] : (q.ur || q.question_ur || '') }); });
+                  if (t.theorem) t.theorem.forEach((th, i) => { if (th) hasEnglish = true; pools.theorem.push({ en: th || '', ur: (t.theorem_ur && t.theorem_ur[i]) ? t.theorem_ur[i] : '' }); });
+                  addSummaryFromSource(t);
+                }
+              });
+            } else if (ch.topics) {
+              ch.topics.forEach(t => {
+                addFromSourceCompat(t);
+                if (t.mcqs) {
+                  t.mcqs.forEach(mcq => {
+                    pools.mcqs.push(mcq);
+                    if (mcq.question || mcq.en) hasEnglish = true;
+                  });
+                }
+                // ADDED: Handle ASL Questions in topics
+                if (t.mcq_pick_questions) {
+                  t.mcq_pick_questions.forEach(q => {
+                    pools.asl.push(q);
+                    if (q.question || q.en) hasEnglish = true;
+                  });
+                }
+                // ADDED: Handle Verb Form Questions in topics
+                if (t.mcq_form_of_verb) {
+                  t.mcq_form_of_verb.forEach(q => {
+                    pools.verb.push(q);
+                    if (q.question || q.en) hasEnglish = true;
+                  });
+                }
+                // ADDED: Handle Underlined Words Questions in topics
+                if (t.mcq_underlined_words) {
+                  t.mcq_underlined_words.forEach(q => {
+                    pools.underline.push(q);
+                    if (q.sentence || q.en) hasEnglish = true;
+                  });
+                }
+                // ADDED: Handle Translate to Urdu in topics
+                if (t.translate_to_urdu) {
+                  t.translate_to_urdu.forEach(q => {
+                    pools.paragraph.push({ en: q.text || q.en || '', ur: 'For Translation' });
+                    if (q.text || q.en) hasEnglish = true;
+                  });
+                }
+                // ADDED: Handle Reference to Context in topics
+                if (t.reference_to_context) {
+                  t.reference_to_context.forEach(q => {
+                    pools.rtc.push({ en: q.text || q.en || '', ur: 'Reference Text' });
+                    if (q.text || q.en) hasEnglish = true;
+                  });
+                }
+                if (t.prose_questions && typeof t.prose_questions === 'object') {
+                  Object.values(t.prose_questions).flat().forEach(q => {
+                    const text = String(q || '').trim();
+                    if (text) pools.prose.push({ en: text, ur: text });
+                  });
+                }
+                if (t.poem_questions && typeof t.poem_questions === 'object') {
+                  Object.values(t.poem_questions).flat().forEach(q => {
+                    const text = String(q || '').trim();
+                    if (text) pools.poem.push({ en: text, ur: text });
+                  });
+                }
+                if (Array.isArray(t.paragraphs_for_explanation)) {
+                  t.paragraphs_for_explanation.forEach(p => {
+                    pools.paragraph.push({
+                      title: p.title_ur || p.title || '',
+                      en: p.title_ur || p.title || '',
+                      ur: p.title_ur || '',
+                      fullContent: p.content || p.text || '',
+                      questions: [],
+                      questions_ur: [],
+                      isParagraph: true
+                    });
+                  });
+                }
+                if (Array.isArray(t.poems_for_explanation)) {
+                  t.poems_for_explanation.forEach(p => {
+                    pools.paragraph.push({
+                      title: p.title_ur || p.title || '',
+                      en: p.title_ur || p.title || '',
+                      ur: p.title_ur || '',
+                      fullContent: p.content || p.text || '',
+                      questions: [],
+                      questions_ur: [],
+                      isParagraph: true
+                    });
+                  });
+                }
+                if (t.short_questions) {
+                  t.short_questions.forEach((q, i) => {
+                    const enText = typeof q === 'string' ? q : (q.en || q.question || '');
+                    if (enText) hasEnglish = true;
+                    pools.short.push({
+                      en: enText,
+                      ur: (t.short_questions_ur && t.short_questions_ur[i]) ? t.short_questions_ur[i] : (q.ur || q.question_ur || '')
+                    });
+                  });
+                }
+                if (t.long_questions) {
+                  t.long_questions.forEach((q, i) => {
+                    const enText = typeof q === 'string' ? q : (q.en || q.question || '');
+                    if (enText) hasEnglish = true;
+                    pools.long.push({
+                      en: enText,
+                      ur: (t.long_questions_ur && t.long_questions_ur[i]) ? t.long_questions_ur[i] : (q.ur || q.question_ur || '')
+                    });
+                  });
+                }
+                if (t.theorem) {
+                  t.theorem.forEach((th, i) => {
+                    if (th) hasEnglish = true;
+                    pools.theorem.push({
+                      en: th || '',
+                      ur: (t.theorem_ur && t.theorem_ur[i]) ? t.theorem_ur[i] : ''
+                    });
+                  });
+                }
+                addSummaryFromSource(t);
+                // ADDED: Handle paragraphs in topics
+                if (t.paragraphs && Array.isArray(t.paragraphs)) {
+                  t.paragraphs.forEach(para => {
+                    if (para.text || para.en) {
+                      if (para.text || para.en) hasEnglish = true;
+                      const rawQ = para.questions || [];
+                      const processedQuestions = rawQ.map(q => {
+                        if (!q) return '';
+                        if (typeof q === 'string') return q.trim();
+                        if (typeof q === 'object') return String(q.en || q.question || q.text || '').trim();
+                        return String(q).trim();
+                      }).filter(q => q);
+
+                      // Fallback to Urdu questions if no English questions available
+                      let questionsFinal = processedQuestions;
+                      if (questionsFinal.length === 0 && Array.isArray(para.questions_ur) && para.questions_ur.length > 0) {
+                        questionsFinal = para.questions_ur.map(q => (typeof q === 'string' ? q.trim() : String(q).trim())).filter(q => q);
+                      }
+
+                      pools.paragraph.push({
+                        title: para.title || para.en || '',
+                        en: para.text || para.en || '',
+                        ur: para.ur || '',
+                        questions: questionsFinal,
+                        questions_ur: para.questions_ur || [],
+                        isParagraph: true
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        });
+
+
+
+        // ADDED: Urdu translation titles
+        const sections = [
+          { id: 'mcqs', title: 'Objective Type:-', urTitle: 'انتخابی سوالات:-', conf: config.mcqs },
+          { id: 'asl', title: 'ASL Pick Questions:-', urTitle: 'ای ایس ایل کے سوالات:-', conf: config.asl },
+          { id: 'verb', title: 'Verb Form Questions:-', urTitle: 'فعل کی شکلیں:-', conf: config.verb },
+          { id: 'underline', title: 'Underlined Words:-', urTitle: 'حروف کے معنی:-', conf: config.underline },
+          { id: 'paragraph', title: 'Paragraph:-', urTitle: 'شاملِ نصوص:-', conf: config.paragraph },
+          { id: 'short', title: 'Short Questions:-', urTitle: 'مختصر سوالات:-', conf: config.short },
+          { id: 'long', title: 'Long Questions:-', urTitle: 'تفصیلی سوالات:-', conf: config.long },
+          { id: 'summary', title: 'Summary / Markazi Khayal:-', urTitle: 'خلاصہ / مرکزی خیال:-', conf: config.summary },
+          { id: 'prose', title: 'Prose Questions:-', urTitle: 'نثر کے سوالات:-', conf: config.prose },
+          { id: 'poem', title: 'Poem Questions:-', urTitle: 'نظم کے سوالات:-', conf: config.poem },
+          { id: 'theorem', title: 'Theorems:-', urTitle: 'مسئلے:-', conf: config.theorem }
+        ];
+
+        // Keep grammar sets selection separate in questions.ejs UI,
+        // but print them under Objective Type in the final paper.
+        const pickedSets = (config.sections && config.sections.sets && Array.isArray(config.sections.sets.picked))
+          ? config.sections.sets.picked
+          : [];
+        const mandatoryMcqsFromSets = [];
+        if (pickedSets.length > 0) {
+          pickedSets.forEach(item => {
+            const enText = item.en || item.question || item.text || '';
+            const urText = item.ur || item.question_ur || (/[\u0600-\u06FF]/.test(enText) ? enText : '');
+            const options = Array.isArray(item.options) ? item.options : [];
+            const optionsUr = Array.isArray(item.options_ur) ? item.options_ur : [];
+            if (enText || urText) {
+              const mcqItem = {
+                en: enText || urText,
+                ur: urText,
+                options,
+                options_ur: optionsUr
+              };
+              pools.mcqs.push(mcqItem);
+              mandatoryMcqsFromSets.push(mcqItem);
+            }
+          });
+        }
+
+        const getItemKey = (item) => {
+          if (!item) return '';
+          if (typeof item === 'string') return item.trim();
+          const keyText = [
+            item.title || item.chapter || item.topic || '',
+            item.en || item.question || item.sentence || item.text || '',
+            item.ur || item.question_ur || item.text_ur || '',
+            item.fullContent || item.content || '',
+            Array.isArray(item.questions) ? item.questions.join('|') : '',
+            Array.isArray(item.questions_ur) ? item.questions_ur.join('|') : '',
+            Array.isArray(item.options) ? item.options.join('|') : '',
+            Array.isArray(item.options_ur) ? item.options_ur.join('|') : ''
+          ].join('||').trim();
+          if (keyText) return keyText;
+          try { return JSON.stringify(item); } catch (e) { return String(item); }
+        };
+
+        const dedupeItems = (items) => {
+          const out = [];
+          const seen = new Set();
+          (items || []).forEach(item => {
+            const key = getItemKey(item);
+            if (!key || seen.has(key)) return;
+            seen.add(key);
+            out.push(item);
+          });
+          return out;
+        };
+
+        const pickRandomUnique = (items, count) => {
+          const pool = dedupeItems(items).slice();
+          for (let i = pool.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pool[i], pool[j]] = [pool[j], pool[i]];
+          }
+          return pool.slice(0, Math.max(0, Math.min(Number(count) || 0, pool.length)));
+        };
+
+        sections.forEach(sec => {
+          // FIXED: Check if we should skip this section
+          let shouldSkip = false;
+          if (sec.skipWhenEnglish && isEnglishSubject) {
+            console.log(`${sec.id} skipped for English subject`);
+            return;
+          }
+
+          // ENSURE include is true in config, and if picked items exist, force include=true
+          if (!sec.conf) {
+            console.log(`No config for ${sec.id}`);
+            return;
+          }
+
+          // For picked sections, force include only when section is in pick mode.
+          if (sec.conf.mode === 'pick' && sec.conf.picked && Array.isArray(sec.conf.picked) && sec.conf.picked.length > 0) {
+            sec.conf.include = true;
+            console.log(`${sec.id}: Forced include=true due to picked items`);
+          }
+
+          // FIXED: Force include 'paragraph' section if custom Comprehension were picked (English B)
+          if (sec.id === 'paragraph' && config.sections && config.sections.Comprehension && config.sections.Comprehension.picked && config.sections.Comprehension.picked.length > 0) {
+            sec.conf.include = true;
+            console.log('paragraph: Forced include=true due to CUSTOM picked Comprehension');
+          }
+
+          if (!sec.conf.include) {
+            console.log(`${sec.id} not included`);
+            return;
+          }
+
+          console.log(`✅ Processing section: ${sec.id}`);
+          let qIdx = 1;
+          let count = parseInt(sec.conf.count) || 0;
+
+          // FIXED: If we have custom picked items for this section (like Comprehension for paragraph), ensure count is at least that many
+          if (sec.id === 'paragraph' && config.sections && config.sections.Comprehension && config.sections.Comprehension.picked) {
+            const customCount = config.sections.Comprehension.picked.length;
+            if (customCount > 0) {
+              console.log(`paragraph: adjusting count to include ${customCount} custom items`);
+              // If count was 0, make it customCount. If it was already > 0, we'll merge them later anyway
+              if (count === 0) count = customCount;
+            }
+          }
+
+          if (count === 0) {
+            console.log(`${sec.id} count is 0`);
+            return;
+          }
+
+          // ADDED: Handle picked items vs random selection
+          let chosen = [];
+          const sectionPool = dedupeItems(pools[sec.id] || []);
+          if (sec.conf.mode === 'pick' && sec.conf.picked && sec.conf.picked.length > 0) {
+            // Use picked items as-is
+            const pickedUnique = dedupeItems(sec.conf.picked);
+            chosen = count > 0 ? pickedUnique.slice(0, count) : pickedUnique;
+          }
+
+          if (sec.id === 'paragraph') {
+            // MERGE: If custom 'Comprehension' key exists (from English B), add its picked items too
+            let customPicked = [];
+            if (config.sections && config.sections.Comprehension && config.sections.Comprehension.picked) {
+              customPicked = dedupeItems(config.sections.Comprehension.picked);
+              console.log('DEBUG: Custom Picked Paragraphs:', JSON.stringify(customPicked, null, 2)); // DEBUG LOG
+              // IMPROVED: Deduplication check using both title AND content to prevent reappearing paragraphs
+              customPicked.forEach(p => {
+                const pTitle = p.en || p.title || '';
+                const pContent = p.fullContent || p.text || '';
+                // Check if already exists by comparing both title and content
+                const isDuplicate = chosen.some(c => {
+                  const cTitle = c.title || c.en || '';
+                  const cContent = c.fullContent || c.text || '';
+                  return (cTitle && cTitle === pTitle) || (cContent && cContent === pContent);
+                });
+                if (!isDuplicate) {
+                  console.log('DEBUG: Merging custom paragraph:', pTitle, 'Questions:', p.questions ? p.questions.length : 'None'); // DEBUG LOG
+                  chosen.push(p);
+                } else {
+                  console.log('DEBUG: SKIPPED duplicate paragraph:', pTitle);
+                }
+              });
+            }
+
+            if (sec.conf.mode !== 'pick') {
+              const mergedPool = dedupeItems([...(sectionPool || []), ...(customPicked || [])]);
+              chosen = pickRandomUnique(mergedPool, count);
+            }
+          } else if (chosen.length === 0) {
+            // Random unique selection from pool for all other sections
+            chosen = pickRandomUnique(sectionPool, count);
+          }
+
+          // Ensure Urdu grammar set MCQs always appear in Objective Type.
+          if (sec.id === 'mcqs' && mandatoryMcqsFromSets.length > 0) {
+            const mandatory = dedupeItems(mandatoryMcqsFromSets);
+            const mandatoryKeys = new Set(mandatory.map(getItemKey));
+            const remainingPool = sectionPool.filter(item => !mandatoryKeys.has(getItemKey(item)));
+            const finalCount = Math.max(count, mandatory.length);
+            const needed = Math.max(0, finalCount - mandatory.length);
+            const randomTail = pickRandomUnique(remainingPool, needed);
+            chosen = dedupeItems([...mandatory, ...randomTail]);
+            sec.conf.include = true;
+          }
+
+          // ADDED: Final deduplication pass for paragraphs to prevent same content appearing twice
+          if (sec.id === 'paragraph' && chosen.length > 0) {
+            const uniqueChosen = [];
+            const seenContent = new Set();
+            chosen.forEach(item => {
+              const contentKey = (item.fullContent || item.text || item.en || '').trim();
+              if (contentKey && !seenContent.has(contentKey)) {
+                seenContent.add(contentKey);
+                uniqueChosen.push(item);
+              } else if (!contentKey) {
+                // If no content key, keep it (shouldn't happen but be safe)
+                uniqueChosen.push(item);
+              }
+            });
+            chosen = uniqueChosen;
+            console.log(`DEBUG: After deduplication, ${chosen.length} unique paragraphs`);
+          }
+
+          if (!chosen.length) {
+            console.log(`⚠️ No ${sec.id} questions found in pool:`, pools[sec.id].length);
+            return;
+          }
+
+          console.log(`✅ Rendering ${chosen.length} ${sec.id} questions`);
+
+          const sectionTextBlob = chosen.map(item => {
+            if (!item || typeof item !== 'object') return String(item || '');
+            return [item.ur, item.question_ur, item.en, item.question, item.text, item.title, item.fullContent]
+              .filter(Boolean)
+              .join(' ');
+          }).join(' ');
+          const sectionHasUrdu = /[\u0600-\u06FF]/.test(sectionTextBlob);
+          const sectionHasLatin = /[A-Za-z]/.test(sectionTextBlob);
+          const useUrduHeading = sectionHasUrdu && !sectionHasLatin;
+
+          let baseTitle = (useUrduHeading ? sec.urTitle : sec.title).replace(/:-\s*$/, '');
+          if (sec.id === 'summary' && sec.conf && Array.isArray(sec.conf.picked) && sec.conf.picked.length > 0) {
+            const types = [...new Set(sec.conf.picked.map(p => p.type).filter(Boolean))];
+            if (types.length === 1) {
+              if (types[0] === 'markazi') baseTitle = useUrduHeading ? 'مرکزی خیال' : 'Markazi Khayal';
+              if (types[0] === 'summary') baseTitle = useUrduHeading ? 'خلاصہ' : 'Summary';
+            }
+          }
+          let sectionTitle = baseTitle;
+
+          const confCount = Number(sec.conf.count || 0);
+          const confAttempts = Number(sec.conf.attempts || 0);
+          if (confAttempts > 0 && confCount > 0 && confCount > confAttempts) {
+            // FIXED: Add Urdu translation for attempt text
+            if (useUrduHeading) {
+              // Urdu: "کوئی بھی X سوالات میں سے Y حل کریں"
+              sectionTitle = `${baseTitle} - ${confCount} میں سے ${confAttempts} سوالات حل کریں`;
+            } else {
+              sectionTitle = `${baseTitle} - Attempt any ${confAttempts} questions from ${confCount}`;
+            }
+          }
+          const urHeadingClass = (useUrduHeading ? 'ur-heading' : '');
+          container.innerHTML += `<div class="section-heading ${urHeadingClass}">${sectionTitle}</div>`;
+
+          chosen.forEach(q => {
+            totalExamMarks += Number(sec.conf.marks) || 0;
+
+            // Handle both random pool paragraphs AND picked paragraphs from questions.ejs
+            if (sec.id === 'paragraph') {
+
+              // Render paragraph title - UPDATED STYLE (Smaller font, lighter weight)
+              const titleText = (q.title || '').trim();
+              if (titleText) {
+                const titleHtml = `<div class="section-heading" style="margin-top: 12px; margin-bottom: 4px; font-weight: 600; font-size: 12px;">
+                                  ${escapeHtml(titleText)}
+                                </div>`;
+                container.innerHTML += titleHtml;
+              }
+
+              // Render paragraph text - use fullContent or text, but NOT en if it's the same as title
+              // FIXED: Prevent rendering the same text twice, lighter font weight
+              const paraText = (q.fullContent || q.content || q.text || q.en || '').trim();
+              const paraIsUrdu = /[\u0600-\u06FF]/.test(paraText);
+              // Only render paragraph content if it exists AND is different from the title
+              if (paraText && paraText !== titleText) {
+                container.innerHTML += `<div class="question-block">
+                                    <div class="q-main-container">
+                                      <div class="${paraIsUrdu ? 'col-ur' : 'col-en'} paragraph-text" style="${isEnglishSubject ? 'font-weight: 400 !important;' : ''}">${escapeHtml(paraText)}</div>
+                                    </div>
+                                  </div>`;
+              }
+
+              // Render Urdu paragraph translation if available
+              const urParaText = (q.ur || '').trim();
+              const isShortLabel = /^(\s*پیرا|\s*نظم|\s*para|\s*poem)\b/i.test(urParaText);
+              if (urParaText && !paraIsUrdu && urParaText !== titleText && urParaText !== paraText && !isShortLabel) {
+                container.innerHTML += `<div class="question-block">
+                                    <div class="q-main-container">
+                                      <div class="col-ur paragraph-text" style="text-align: right; direction: rtl;">${escapeHtml(urParaText)}</div>
+                                    </div>
+                                  </div>`;
+              }
+
+              // Check for questions (Comprehension Type)
+              // CRITICAL: Ensure we check ALL possible question properties
+              console.log('DEBUG PARAGRAPH:', titleText, '| Has questions?', q.questions?.length || 0, '| Object keys:', Object.keys(q));
+              let subQuestions = [];
+              if (Array.isArray(q.questions) && q.questions.length > 0) subQuestions = q.questions;
+              else if (Array.isArray(q.questions_ur) && q.questions_ur.length > 0) subQuestions = q.questions_ur;
+              else if (Array.isArray(q.mcqs) && q.mcqs.length > 0) subQuestions = q.mcqs;
+              else if (Array.isArray(q.mcq_pick_questions)) subQuestions = q.mcq_pick_questions;
+
+              console.log('DEBUG: Found', subQuestions.length, 'sub-questions for paragraph:', titleText.substring(0, 40));
+
+              // Render Sub-questions
+              if (subQuestions.length > 0) {
+                container.innerHTML += `<div style="margin-top: 5px; margin-bottom: 15px;">`; // Container for questions
+                subQuestions.forEach(subQ => {
+                  let text = '';
+                  if (typeof subQ === 'string') text = subQ;
+                  else text = subQ.question || subQ.en || subQ.text || '';
+
+                  if (!text) return;
+                  const isUrduQ = /[\u0600-\u06FF]/.test(text);
+                  // Render question slightly indented
+                  container.innerHTML += `<div class="question-block" style="margin-top: 2px;">
+                                                  <div class="q-number">(${toRoman(qIdx++)})</div>
+                                                  <div class="q-main-container">
+                                                    <div class="${isUrduQ ? 'col-ur' : 'col-en'}">${escapeHtml(text)}</div>
+                                                  </div>
+                                                </div>`;
+                });
+                container.innerHTML += `</div>`;
+              } else {
+                console.log('DEBUG: NO sub-questions found for paragraph:', titleText.substring(0, 40));
+              }
+              return; // Skip default rendering since we handled this paragraph
+            }
+            // FIXED: Robust Paragraph Rendering
+
+
+            const en = (q.question || q.sentence || q.en || (typeof q === 'string' ? q : '')).trim();
+            const ur = (q.question_ur || q.ur || '').trim();
+            const hasUrduChars = (txt) => /[\u0600-\u06FF]/.test(String(txt || ''));
+            const hasLatinChars = (txt) => /[A-Za-z]/.test(String(txt || ''));
+            const enLooksUrdu = hasUrduChars(en) && !hasLatinChars(en);
+            const urLooksUrdu = hasUrduChars(ur);
+
+
+            // Per-question Urdu-only detection (NOT global)
+            const isUrOnly = (ur && !en) || (enLooksUrdu && (!ur || urLooksUrdu));
+            if (isUrOnly) {
+              console.log('🔄 URDU-ONLY detected! Question:', (ur).substring(0, 50));
+            }
+            let html = `<div class="question-block ${isUrOnly ? 'ur-only' : ''}">
+                        <div class="q-number">(${toRoman(qIdx++)})</div>
+                        <div class="q-main-container">`;
+
+            if (isUrOnly) {
+              const urText = ur || en;
+              html += `<div class="col-ur">
+                      <div>${escapeHtml(urText)}</div>`;
+              if (['mcqs', 'asl', 'verb', 'underline'].includes(sec.id)) {
+                const optsUr = (q.options_ur && q.options_ur.length) ? q.options_ur : (q.options || []);
+                if (optsUr.length > 0) {
+                  html += `<div class="options-list">${optsUr.map((o, i) => `<span>(${String.fromCharCode(97 + i)}) ${escapeHtml(o)}</span>`).join('')}</div>`;
+                }
+              }
+              html += `</div>`;
+            } else if (en && ur) {
+              html += `<div class="q-content bilingual">
+                      <div class="col-en"><div>${escapeHtml(en)}</div>`;
+              if (['mcqs', 'asl', 'verb', 'underline'].includes(sec.id) && q.options) {
+                html += `<div class="options-list">${q.options.map((o, i) => `<span>(${String.fromCharCode(97 + i)}) ${escapeHtml(o)}</span>`).join('')}</div>`;
+              }
+              html += `</div><div class="col-ur"><div>${escapeHtml(ur)}</div>`;
+              if (['mcqs', 'asl', 'verb', 'underline'].includes(sec.id)) {
+                const optsUr = (q.options_ur && q.options_ur.length) ? q.options_ur : (q.options || []);
+                if (optsUr.length > 0) {
+                  html += `<div class="options-list">${optsUr.map((o, i) => `<span>(${String.fromCharCode(97 + i)}) ${escapeHtml(o)}</span>`).join('')}</div>`;
+                }
+              }
+              html += `</div></div>`;
+            } else {
+              html += `<div class="${en ? 'col-en' : 'col-ur'}">
+                        <div>${escapeHtml(en || ur)}</div>`;
+              if (['mcqs', 'asl', 'verb', 'underline'].includes(sec.id)) {
+                const opts = (en ? q.options : (q.options_ur || q.options)) || [];
+                if (opts.length > 0) {
+                  html += `<div class="options-list">${opts.map((o, i) => `<span>(${String.fromCharCode(97 + i)}) ${escapeHtml(o)}</span>`).join('')}</div>`;
+                }
+              }
+              html += `</div>`;
+            }
+            html += `</div></div>`;
+            container.innerHTML += html;
+          });
+        });
+
+        // ADDED: Handle custom English(B) categories that are selected in questions.ejs
+        const standardSections = ['mcqs', 'asl', 'verb', 'underline', 'short', 'long', 'summary', 'paragraph', 'rtc', 'theorem'];
+        const customHeadingMap = {
+          letters: { en: 'Letters', ur: 'خطوط' },
+          applications: { en: 'Applications', ur: 'درخواستیں' },
+          completing_sentences: { en: 'Complete Sentences', ur: 'جملے مکمل کریں' },
+          correctness_of_sentences: { en: 'Sentence Correction', ur: 'جملوں کی درستگی' },
+          stories: { en: 'Stories', ur: 'کہانیاں' },
+          dialogues: { en: 'Dialogues', ur: 'مکالمے' },
+          receipts: { en: 'Receipts', ur: 'رسیدیں' },
+          muhavrat_and_proverbs: { en: 'Idioms & Proverbs', ur: 'محاورات و ضرب الامثال' }
+        };
+        if (config.sections) {
+          Object.keys(config.sections).forEach(customKey => {
+            if (standardSections.includes(customKey)) return;
+            // SKIP Comprehension in custom section because they are merged into the standard paragraph section above
+            // Case-insensitive check to be safe
+            if (customKey.toLowerCase() === 'comprehension' || customKey.toLowerCase() === 'paragraph') return;
+            if (customKey.toLowerCase() === 'sets') return;
+
+            const sectionState = config.sections[customKey];
+            if (!sectionState.picked || sectionState.picked.length === 0) return;
+
+            const marks = (config.marksMap && config.marksMap[customKey]) ? config.marksMap[customKey] : 5;
+            let qIdx = 1;
+
+            // Display custom category heading
+            const mappedHeading = customHeadingMap[customKey];
+            const customTextBlob = sectionState.picked.map(item => {
+              if (!item || typeof item !== 'object') return String(item || '');
+              return [item.ur, item.question_ur, item.en, item.question, item.text, item.title, item.fullContent]
+                .filter(Boolean)
+                .join(' ');
+            }).join(' ');
+            const customUseUrduHeading = /[\u0600-\u06FF]/.test(customTextBlob) && !/[A-Za-z]/.test(customTextBlob);
+            const headingText = mappedHeading ? (customUseUrduHeading ? mappedHeading.ur : mappedHeading.en) : customKey.replace(/_/g, ' ');
+            container.innerHTML += `<div class="section-heading ${customUseUrduHeading ? 'ur-heading' : ''}">${escapeHtml(headingText)}:-</div>`;
+
+            sectionState.picked.forEach(item => {
+              totalExamMarks += marks;
+
+              const itemText = item.en || item.text || '';
+              const fullContent = item.fullContent || item.content || '';
+
+              // Detect if item text is Urdu
+              const isUrduItem = /[\u0600-\u06FF]/.test(itemText);
+              const colClass = isUrduItem ? 'col-ur' : 'col-en';
+              // For Urdu items, set direction: rtl on the block so numbering moves to right
+              const blockStyle = isUrduItem ? 'direction: rtl;' : '';
+              const contentStyle = isUrduItem ? 'text-align: right;' : '';
+
+              let html = `<div class="question-block" style="${blockStyle}">
+                          <div class="q-number">(${toRoman(qIdx++)})</div>
+                          <div class="q-main-container">
+                            <div class="${colClass} paragraph-text" style="${contentStyle}">
+                              <div>${escapeHtml(itemText)}</div>
+                              ${fullContent ? `<div style="margin-top: 8px; font-style: italic; font-size: 0.95em;">${escapeHtml(fullContent)}</div>` : ''}
+                            `;
+
+              if (item.questions && Array.isArray(item.questions) && item.questions.length > 0) {
+                html += `<div style="margin-top: 10px; margin-left: 15px;">`;
+                item.questions.forEach((q, i) => {
+                  const qText = typeof q === 'string' ? q : (q.question || q.en || '');
+                  html += `<div style="margin-bottom: 4px;">(${toRoman(i + 1).toLowerCase()}) ${escapeHtml(qText)}</div>`;
+                });
+                html += `</div>`;
+              }
+
+              html += `</div></div></div>`;
+              container.innerHTML += html;
+            });
+          });
+        }
+
+        // Hide loading indicator
+        const loadingEl = document.getElementById('loadingIndicator');
+        if (loadingEl) loadingEl.style.display = 'none';
+        
+        document.getElementById('displayMarks').innerText = `MAXIMUM MARKS: ${totalExamMarks}`;
+        currentTotalMarks = totalExamMarks;
+        // Save in background so UI feels fast even on slower networks/devices.
+        saveCurrentPaper(false).catch(err => console.error('Background save failed:', err));
+        console.log(`✅ Paper generated successfully! Total marks: ${totalExamMarks}`);
+      } catch (e) {
+        console.error('❌ Paper generation error:', e);
+        try {
+          container.innerHTML = `<div style="padding:20px;border:1px solid #fcc; background:#fff7f7; color:#900; font-weight:700;">Failed to generate paper: ${e.message}</div>`;
+        } catch (uiErr) {
+          console.error('Failed to render error message', uiErr);
+        }
+      }
+      }, 100); // Delay to allow UI update
+    }
+
+    console.log('🚀 Starting paper generation...');
+    generatePaper();
+  </script>
+</body>
+
+</html>

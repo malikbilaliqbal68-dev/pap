@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Roadmap | Paperify</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --brand-green: #19c880;
+            --deep-navy: #3f3a64;
+            --soft-bg: #f8f1eb;
+        }
+
+        body { font-family: 'Inter', sans-serif; color: var(--deep-navy); background-color: #fff; }
+        h1, h2 { font-family: 'Playfair Display', serif; }
+
+        .custom-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Quiz Card Styling */
+        .quiz-card {
+            background: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 40px;
+            padding: 60px 40px;
+            box-shadow: 0 40px 100px rgba(63, 58, 100, 0.08);
+            position: relative;
+            z-index: 10;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .btn-hero {
+            background-color: var(--brand-green);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            padding: 20px 45px;
+            border-radius: 100px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 40px rgba(25, 200, 128, 0.25);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-hero:hover {
+            transform: scale(1.05) translateY(-5px);
+            background-color: var(--deep-navy);
+        }
+
+        .input-premium {
+            width: 100%;
+            background: #f9fbfb;
+            border: 2px solid #eee;
+            border-radius: 20px;
+            padding: 18px 25px;
+            font-size: 16px;
+            transition: all 0.3s;
+            outline: none;
+            text-align: center;
+        }
+
+        .input-premium:focus {
+            border-color: var(--brand-green);
+            background: white;
+        }
+
+        .circle-blur {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(25, 200, 128, 0.07);
+            filter: blur(100px);
+            border-radius: 50%;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="bg-[#fcfaf8] min-h-screen flex flex-col">
+
+    <nav class="bg-[#f8f1eb] py-6 sticky top-0 z-50 border-b border-gray-100">
+        <div class="custom-container flex justify-between items-center">
+            <div class="text-3xl font-black tracking-tighter text-[#3f3a64]">Paper<span class="text-[#19c880]">ify</span></div>
+            <div class="hidden lg:flex items-center gap-12 text-[15px] font-bold text-[#3f3a64]">
+                <a href="index.html" class="hover:text-[#19c880] transition">Home</a>
+                <a class="text-[#19c880]">Courses</a>
+                <a href="#" class="hover:text-[#19c880] transition">Generate</a>
+                <div class="flex items-center gap-6 ml-4 border-l pl-8 border-gray-300">
+                    <i class="fa-regular fa-user-circle text-xl text-gray-400 cursor-pointer hover:text-[#19c880]"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow relative flex items-center justify-center py-20 overflow-hidden">
+        <div class="circle-blur -top-20 -left-20"></div>
+        <div class="circle-blur -bottom-20 -right-20"></div>
+
+        <div class="custom-container w-full">
+            <div class="text-center mb-12">
+                
+                <h1 class="text-5xl font-black text-[#3f3a64]">Define Your <span class="text-[#19c880] italic">Destiny</span></h1>
+            </div>
+
+            <div class="quiz-card text-center">
+                <div class="mb-10">
+                    <h2 class="text-3xl font-bold text-[#3f3a64] mb-4">Do you have a clear plan for your future?</h2>
+                    <p class="text-gray-400 text-sm max-w-md mx-auto">Tell us your dream, or let our AI build a roadmap from scratch.</p>
+                </div>
+
+                <div class="space-y-8">
+                    <input id="goalInput" type="text" placeholder="I want to become a..." class="input-premium">
+
+                    <div class="flex items-center justify-center gap-4">
+                        <div class="h-[1px] bg-gray-200 w-20"></div>
+                        <span class="text-[10px] font-bold text-gray-300 uppercase tracking-widest">or feel lost?</span>
+                        <div class="h-[1px] bg-gray-200 w-20"></div>
+                    </div>
+                    
+                    <div>
+                        <button class="btn-hero" onclick="startRoadmap()">
+                            GET ZERO TO HERO <i class="fa-solid fa-rocket ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#3f3a64] py-10 text-center">
+        <div class="text-xl font-black text-white">Paper<span class="text-[#19c880]">ify</span></div>
+        <p class="text-gray-400 text-[10px] mt-2 uppercase tracking-widest">Empowering your future self</p>
+    </footer>
+
+    <script>
+        function startRoadmap() {
+            const goal = document.getElementById('goalInput').value.trim();
+            if (!goal) {
+                alert('Please write your goal first.');
+                return;
+            }
+            const params = new URLSearchParams({ goal });
+            window.location.href = `/roadmap?${params.toString()}`;
+        }
+    </script>
+
+</body>
+</html>

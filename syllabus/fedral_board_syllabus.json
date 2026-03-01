@@ -1,0 +1,30 @@
+[
+  {
+    "class": "9",
+    "subjects": [
+      {
+        "name": { "en": "Chemistry", "ur": "کیمیا" },
+        "chapters": [
+          { "chapter": { "en": "Nature of Science in Chemistry", "ur": "کیمیا میں سائنس کی نوعیت" }, "mcqs": [], "short_questions": [], "short_questions_ur": [], "long_questions": [], "long_questions_ur": [] },
+          { "chapter": { "en": "Matter", "ur": "مادہ" }, "mcqs": [], "short_questions": [], "short_questions_ur": [], "long_questions": [], "long_questions_ur": [] },
+          { "chapter": { "en": "Atomic Structure", "ur": "ایٹمی ساخت" }, "mcqs": [], "short_questions": [], "short_questions_ur": [], "long_questions": [], "long_questions_ur": [] }
+        ]
+      },
+      {
+        "name": { "en": "Biology", "ur": "حیاتیات" },
+        "chapters": [
+          { "chapter": { "en": "The Science of Biology", "ur": "حیاتیات کا علم" }, "mcqs": [], "short_questions": [], "short_questions_ur": [], "long_questions": [], "long_questions_ur": [] },
+          { "chapter": { "en": "Biodiversity", "ur": "حیاتیاتی تنوع" }, "mcqs": [], "short_questions": [], "short_questions_ur": [], "long_questions": [], "long_questions_ur": [] },
+          { "chapter": { "en": "Cell", "ur": "خلویات" }, "mcqs": [], "short_questions": [], "short_questions_ur": [], "long_questions": [], "long_questions_ur": [] }
+        ]
+      },
+      {
+        "name": { "en": "Physics", "ur": "طبیعیات" },
+        "chapters": [
+          { "chapter": { "en": "Physical Quantities and Measurement", "ur": "طبیعیاتی مقدار اور پیمائش" }, "mcqs": [], "short_questions": [], "short_questions_ur": [], "long_questions": [], "long_questions_ur": [] },
+          { "chapter": { "en": "Kinematics", "ur": "حرکتیات" }, "mcqs": [], "short_questions": [], "short_questions_ur": [], "long_questions": [], "long_questions_ur": [] }
+        ]
+      }
+    ]
+  }
+]

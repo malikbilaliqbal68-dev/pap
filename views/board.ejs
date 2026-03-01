@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Board | Paperify</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        :root { 
+            --brand-green: #19c880; 
+            --deep-navy: #3f3a64; 
+            --soft-bg: #f8f1eb;
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: var(--deep-navy); }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        .custom-container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+
+        .board-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border: 1px solid #eee;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .board-card:hover {
+            border-color: var(--brand-green);
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(63, 58, 100, 0.1);
+        }
+
+        .tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 800;
+            padding: 5px 14px;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 0 auto 20px auto;
+            background: var(--soft-bg);
+            color: var(--brand-green);
+        }
+
+        .icon-box {
+            width: 70px;
+            height: 70px;
+            background: #f9f9f9;
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #cbd5e1;
+            transition: 0.3s;
+        }
+
+        .board-card:hover .icon-box {
+            background: var(--brand-green);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="bg-[#f8f1eb] py-6 sticky top-0 z-50">
+        <div class="custom-container flex justify-between items-center">
+            <div class="text-3xl font-black tracking-tighter text-[#3f3a64]">
+                <a href="/">Paper<span class="text-[#19c880]">ify</span></a>
+            </div>
+            <div class="text-xs font-black text-gray-400 uppercase tracking-widest">Select Your Region</div>
+        </div>
+    </nav>
+
+    <main class="custom-container py-16 md:py-24">
+        
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-black mb-6 text-[#3f3a64]">
+                All Pakistan <span class="text-[#19c880] italic">Boards</span>
+            </h1>
+            <p class="text-gray-400 max-w-lg mx-auto font-medium">
+                Choose your official province to access localized textbooks and past papers.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            
+            <a href="/group?board=punjab&grade=9" class="board-card p-8 rounded-[35px] text-center group">
+                <span class="tag">Regional</span>
+                <div class="icon-box"><i class="fas fa-star-and-crescent"></i></div>
+                <h3 class="text-xl font-bold mb-2">Punjab</h3>
+                <p class="text-xs text-gray-400">BISE Boards</p>
+            </a>
+
+            <a href="/group?board=sindh&grade=9" class="board-card p-8 rounded-[35px] text-center group">
+                <span class="tag">Regional</span>
+                <div class="icon-box"><i class="fas fa-landmark"></i></div>
+                <h3 class="text-xl font-bold mb-2">Sindh</h3>
+                <p class="text-xs text-gray-400">BIEK & BSEK</p>
+            </a>
+
+            <a href="/group?board=federal&grade=9" class="board-card p-8 rounded-[35px] text-center group">
+                <span class="tag">National</span>
+                <div class="icon-box"><i class="fas fa-building-columns"></i></div>
+                <h3 class="text-xl font-bold mb-2">Federal</h3>
+                <p class="text-xs text-gray-400">FBISE Islamabad</p>
+            </a>
+
+        </div>
+
+    </main>
+
+    <script>
+        // Get grade from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const grade = urlParams.get('grade') || '9';
+        
+        // Update all board links to include the grade parameter dynamically
+        document.querySelectorAll('.board-card').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && href.includes('grade=')) {
+                link.setAttribute('href', href.replace(/grade=\d+/, `grade=${grade}`));
+            } else if (href) {
+                // If no grade parameter, add it
+                const separator = href.includes('?') ? '&' : '?';
+                link.setAttribute('href', `${href}${separator}grade=${grade}`);
+            }
+        });
+    </script>
+
+</body>
+</html>

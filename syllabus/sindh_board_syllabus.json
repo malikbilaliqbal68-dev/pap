@@ -1,0 +1,1113 @@
+[
+  {
+    "class": "9",
+    "subjects": [
+      {
+        "name": { "en": "Biology", "ur": "حیاتیات" },
+        "chapters": [
+          {
+            "title": { "en": "The Science of Biology", "ur": "علم حیاتیات" },
+            "mcqs": [
+              {
+                "question": "Biology is the study of:",
+                "question_ur": "حیاتیات کا مطالعہ ہے:",
+                "options": ["Living things", "Non-living things", "Chemicals", "Physics"],
+                "options_ur": ["جاندار اشیاء", "بے جان اشیاء", "کیمیکلز", "طبیعیات"]
+              },
+              {
+                "question": "The father of biology is:",
+                "question_ur": "حیاتیات کا باپ کہلاتا ہے:",
+                "options": ["Darwin", "Aristotle", "Mendel", "Watson"],
+                "options_ur": ["ڈارون", "ارسطو", "مینڈل", "واٹسن"]
+              },
+              {
+                "question": "Which is NOT a branch of biology?",
+                "question_ur": "حیاتیات کی شاخ نہیں ہے:",
+                "options": ["Botany", "Zoology", "Geology", "Microbiology"],
+                "options_ur": ["نباتیات", "حیوانیات", "ارضیات", "خرد حیاتیات"]
+              },
+              {
+                "question": "Microbiology deals with:",
+                "question_ur": "خرد حیاتیات کا تعلق ہے:",
+                "options": ["Large organisms", "Microscopic organisms", "Plants only", "Animals only"],
+                "options_ur": ["بڑے جاندار", "خردبینی جاندار", "صرف پودے", "صرف جانور"]
+              },
+              {
+                "question": "Ecology is the study of:",
+                "question_ur": "ماحولیات کا مطالعہ ہے:",
+                "options": ["Cells", "Tissues", "Environment and organisms", "Genetics"],
+                "options_ur": ["خلیے", "بافتیں", "ماحول اور جاندار", "وراثیات"]
+              },
+              {
+                "question": "Genetics is related to:",
+                "question_ur": "وراثیات کا تعلق ہے:",
+                "options": ["Heredity", "Environment", "Behavior", "Nutrition"],
+                "options_ur": ["موروثیت", "ماحول", "رفتار", "غذائیت"]
+              },
+              {
+                "question": "Physiology deals with:",
+                "question_ur": "فعلیات کا تعلق ہے:",
+                "options": ["Structure", "Functions", "Classification", "Evolution"],
+                "options_ur": ["ساخت", "افعال", "درجہ بندی", "ارتقاء"]
+              },
+              {
+                "question": "Anatomy is the study of:",
+                "question_ur": "تشریح کا مطالعہ ہے:",
+                "options": ["Functions", "Structure", "Behavior", "Environment"],
+                "options_ur": ["افعال", "ساخت", "رفتار", "ماحول"]
+              },
+              {
+                "question": "Histology is the study of:",
+                "question_ur": "بافتیات کا مطالعہ ہے:",
+                "options": ["Cells", "Tissues", "Organs", "Systems"],
+                "options_ur": ["خلیے", "بافتیں", "اعضاء", "نظام"]
+              },
+              {
+                "question": "Cytology is the study of:",
+                "question_ur": "خلویات کا مطالعہ ہے:",
+                "options": ["Tissues", "Cells", "Organs", "Organisms"],
+                "options_ur": ["بافتیں", "خلیے", "اعضاء", "جاندار"]
+              },
+              {
+                "question": "Taxonomy is related to:",
+                "question_ur": "درجہ بندی کا تعلق ہے:",
+                "options": ["Classification", "Functions", "Structure", "Behavior"],
+                "options_ur": ["تقسیم", "افعال", "ساخت", "رفتار"]
+              },
+              {
+                "question": "Biochemistry deals with:",
+                "question_ur": "حیاتی کیمیا کا تعلق ہے:",
+                "options": ["Physical processes", "Chemical processes", "Mechanical processes", "Electrical processes"],
+                "options_ur": ["طبیعی عمل", "کیمیائی عمل", "میکانکی عمل", "برقی عمل"]
+              },
+              {
+                "question": "Biotechnology involves:",
+                "question_ur": "حیاتی ٹیکنالوجی میں شامل ہے:",
+                "options": ["Pure research", "Applied research", "Theoretical study", "Historical study"],
+                "options_ur": ["خالص تحقیق", "اطلاقی تحقیق", "نظریاتی مطالعہ", "تاریخی مطالعہ"]
+              },
+              {
+                "question": "The scope of biology includes:",
+                "question_ur": "حیاتیات کا دائرہ کار شامل ہے:",
+                "options": ["Only plants", "Only animals", "All living things", "Only microorganisms"],
+                "options_ur": ["صرف پودے", "صرف جانور", "تمام جاندار", "صرف خردبینی جاندار"]
+              },
+              {
+                "question": "Biology helps in:",
+                "question_ur": "حیاتیات مدد کرتا ہے:",
+                "options": ["Medicine only", "Agriculture only", "Industry only", "All fields of life"],
+                "options_ur": ["صرف طب", "صرف زراعت", "صرف صنعت", "زندگی کے تمام شعبے"]
+              },
+              {
+                "question": "Modern biology emphasizes:",
+                "question_ur": "جدید حیاتیات زور دیتا ہے:",
+                "options": ["Observation only", "Experimentation only", "Both observation and experimentation", "Theory only"],
+                "options_ur": ["صرف مشاہدہ", "صرف تجربہ", "مشاہدہ اور تجربہ دونوں", "صرف نظریہ"]
+              },
+              {
+                "question": "Biological research involves:",
+                "question_ur": "حیاتیاتی تحقیق میں شامل ہے:",
+                "options": ["Hypothesis formation", "Data collection", "Analysis", "All of these"],
+                "options_ur": ["فرضیہ بنانا", "ڈیٹا جمع کرنا", "تجزیہ", "یہ سب"]
+              },
+              {
+                "question": "The scientific method includes:",
+                "question_ur": "سائنسی طریقہ شامل ہے:",
+                "options": ["Observation", "Hypothesis", "Experimentation", "All of these"],
+                "options_ur": ["مشاہدہ", "فرضیہ", "تجربہ", "یہ سب"]
+              },
+              {
+                "question": "Biology contributes to:",
+                "question_ur": "حیاتیات حصہ ڈالتا ہے:",
+                "options": ["Human welfare", "Environmental protection", "Economic development", "All of these"],
+                "options_ur": ["انسانی فلاح", "ماحولیاتی تحفظ", "اقتصادی ترقی", "یہ سب"]
+              },
+              {
+                "question": "Morphology deals with:",
+                "question_ur": "شکلیات کا تعلق ہے:",
+                "options": ["Internal structure", "External structure", "Functions", "Behavior"],
+                "options_ur": ["اندرونی ساخت", "بیرونی ساخت", "افعال", "رفتار"]
+              }
+            ],
+            "short_questions": [
+              "Define biology.",
+              "Name any four branches of biology.",
+              "What is the importance of biology in daily life?",
+              "Differentiate between botany and zoology.",
+              "What is microbiology?",
+              "Define ecology and its importance.",
+              "What is genetics?",
+              "Differentiate between anatomy and physiology.",
+              "What is the role of biology in medicine?",
+              "How does biology help in agriculture?",
+              "What is biotechnology?",
+              "Define taxonomy.",
+              "What is the scientific method?",
+              "How is biology related to other sciences?"
+            ],
+            "short_questions_ur": [
+              "حیاتیات کی تعریف کریں۔",
+              "حیاتیات کی کوئی چار شاخوں کے نام لکھیں۔",
+              "روزمرہ زندگی میں حیاتیات کی اہمیت کیا ہے؟",
+              "نباتیات اور حیوانیات میں فرق کریں۔",
+              "خرد حیاتیات کیا ہے؟",
+              "ماحولیات کی تعریف اور اہمیت بیان کریں۔",
+              "وراثیات کیا ہے؟",
+              "تشریح اور فعلیات میں فرق کریں۔",
+              "طب میں حیاتیات کا کردار کیا ہے؟",
+              "زراعت میں حیاتیات کیسے مدد کرتا ہے؟",
+              "حیاتی ٹیکنالوجی کیا ہے؟",
+              "درجہ بندی کی تعریف کریں۔",
+              "سائنسی طریقہ کار کیا ہے؟",
+              "حیاتیات کا دوسرے علوم سے کیا تعلق ہے؟"
+            ],
+            "long_questions": [
+              "Explain the scope and importance of biology in modern world.",
+              "Describe various branches of biology with examples.",
+              "Discuss the role of biology in solving human problems.",
+              "Explain how biology contributes to different fields of life."
+            ],
+            "long_questions_ur": [
+              "جدید دنیا میں حیاتیات کا دائرہ کار اور اہمیت بیان کریں۔",
+              "حیاتیات کی مختلف شاخوں کو مثالوں کے ساتھ بیان کریں۔",
+              "انسانی مسائل کے حل میں حیاتیات کے کردار پر بحث کریں۔",
+              "وضاحت کریں کہ حیاتیات زندگی کے مختلف شعبوں میں کیسے حصہ ڈالتا ہے۔"
+            ]
+          },
+          {
+            "title": { "en": "Biodiversity", "ur": "حیاتی تنوع" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "The Cell", "ur": "خلیہ" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Cell Cycle", "ur": "خلوی چکر" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Tissues, Organs and Organ System", "ur": "بافتیں، اعضاء اور نظام اعضاء" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Biomolecules", "ur": "حیاتی مالیکیولز" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Enzymes", "ur": "خامرے" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Bioenergetics", "ur": "حیاتی توانائیات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Plant Physiology", "ur": "نباتی فعلیات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Reproduction in Plants", "ur": "پودوں میں تولید" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Biostatistics", "ur": "حیاتی شماریات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      },
+      {
+        "name": { "en": "Chemistry", "ur": "کیمیا" },
+        "chapters": [
+          {
+            "title": { "en": "States of Matter and Phase Changes", "ur": "مادے کی حالتیں اور مرحلہ تبدیلیاں" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Atomic Structure", "ur": "ایٹمی ساخت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Chemical Bonding", "ur": "کیمیائی بندھن" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Stoichiometry", "ur": "کیمیائی حساب" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Energetics", "ur": "توانائیات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Equilibria", "ur": "توازن" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Acid Base Chemistry", "ur": "تیزاب اور بنیاد کی کیمیا" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Periodic Table and Periodicity", "ur": "دوری جدول اور دوریت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Group Properties and Elements", "ur": "گروپ کی خصوصیات اور عناصر" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Environmental Chemistry", "ur": "ماحولیاتی کیمیا" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Hydrocarbons", "ur": "ہائیڈرو کاربن" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      },
+      {
+        "name": { "en": "Physics", "ur": "طبیعیات" },
+        "chapters": [
+          {
+            "title": { "en": "Physical Quantities and Measurements", "ur": "طبیعی مقادیر اور پیمائش" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Kinematics", "ur": "حرکیات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Dynamics", "ur": "قوت کی حرکیات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Turning Effects of Forces", "ur": "قوتوں کے گھمانے والے اثرات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Work, Energy and Power", "ur": "کام، توانائی اور قدرت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Mechanical Properties of Matter", "ur": "مادے کی میکانکی خصوصیات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Thermal Properties of Matter", "ur": "مادے کی حرارتی خصوصیات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Magnetism", "ur": "مقناطیسیت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Nature of Science", "ur": "سائنس کی فطرت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      },
+      {
+        "name": { "en": "Mathematics", "ur": "ریاضی" },
+        "chapters": [
+          {
+            "title": { "en": "Real Numbers", "ur": "حقیقی اعداد" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Logarithms", "ur": "لاگرتھم" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Set and Functions", "ur": "مجموعہ اور فنکشن" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Factorization and Algebraic Manipulation", "ur": "تخلیق اور جبری ہیرا پھیری" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Linear Equations and Inequalities", "ur": "خطی مساوات اور عدم مساوات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Trigonometry", "ur": "مثلثیات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Coordinate Geometry", "ur": "احداثی ہندسہ" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Similar Figures", "ur": "مشابہ اشکال" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Graphs of Functions", "ur": "فنکشن کے گرافس" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Loci and Construction", "ur": "مقام اور تعمیر" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Information Handling", "ur": "معلومات کا انتظام" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Probability", "ur": "امکان" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      },
+      {
+        "name": { "en": "Computer Science", "ur": "کمپیوٹر سائنس" },
+        "chapters": [
+          {
+            "title": { "en": "Introduction to Systems", "ur": "نظام کا تعارف" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Number System", "ur": "عددی نظام" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Digital Systems and Logic Design", "ur": "ڈیجیٹل سسٹم اور منطقی ڈیزائن" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "System Troubleshooting", "ur": "سسٹم کی خرابی یابی" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Software System", "ur": "سافٹ ویئر سسٹم" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Introduction to Computer Networks", "ur": "کمپیوٹر نیٹ ورک کا تعارف" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Computational Thinking", "ur": "حسابی سوچ" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Web Development with HTML, CSS and JavaScript", "ur": "HTML، CSS اور JavaScript کے ساتھ ویب ڈیولپمنٹ" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Data Science and Data Gathering", "ur": "ڈیٹا سائنس اور ڈیٹا اکٹھا کرنا" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Emerging Technologies in Computer Science", "ur": "کمپیوٹر سائنس میں ابھرتی ٹیکنالوجیز" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Ethical, Social, and Legal Concerns in Computer Usage", "ur": "کمپیوٹر استعمال میں اخلاقی، سماجی اور قانونی خدشات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Entrepreneurship in Digital Age", "ur": "ڈیجیٹل دور میں کاروبار" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      },
+      {
+        "name": { "en": "Civics", "ur": "شہریت" },
+        "chapters": [
+          {
+            "title": { "en": "", "ur": "علم شہریت کا تعارف" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "افراد کا روابط" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "ریاست" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "حکومت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "شہری اور شہریت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      },
+      {
+        "name": { "en": "Food and Nutrition", "ur": "غذا اور غذائیت" },
+        "chapters": [
+          {
+            "title": { "en": "", "ur": "غذا اور غذائیت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "توانائی اور غذائی اجزا" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "متوازن غذا" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "غذاؤں کی اجزائے ترکیبی" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "اشیائے خوردنی کی خریداری اور سٹور کرنا" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      },
+      {
+        "name": { "en": "General Mathematics", "ur": "عمومی ریاضی" },
+        "chapters": [
+          {
+            "title": { "en": "Percentage, Ratio and Proportion", "ur": "فیصد، تناسب اور تناسب" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Zakat, Ushr and Inheritance", "ur": "زکوٰۃ، عشر اور وراثت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Business Mathematics", "ur": "کاروباری ریاضی" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Financial Mathematics", "ur": "مالی ریاضی" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Consumer Mathematics", "ur": "صارف ریاضی" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Exponents and Logarithms", "ur": "اُس اور لاگرتھم" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Arithmetic and Geometric Sequences", "ur": "حسابی اور ہندسی تسلسل" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Sets and Functions", "ur": "مجموعے اور فنکشن" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Linear Graphs", "ur": "خطی گرافس" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Basic Statistics", "ur": "بنیادی شماریات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      },
+      {
+        "name": { "en": "General Science", "ur": "عمومی سائنس" },
+        "chapters": [
+          {
+            "title": { "en": "Introduction and Role of Science", "ur": "سائنس کا تعارف اور کردار" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Our Life and Chemistry", "ur": "ہماری زندگی اور کیمیا" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Biochemistry and Biotechnology", "ur": "حیاتی کیمیا اور حیاتی ٹیکنالوجی" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Human Health", "ur": "انسانی صحت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Diseases - Causes and Prevention", "ur": "بیماریاں - اسباب اور بچاؤ" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Environment and Natural Resources", "ur": "ماحول اور قدرتی وسائل" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      },
+      {
+        "name": { "en": "Home Economics", "ur": "ہوم اکنامکس" },
+        "chapters": [
+          {
+            "title": { "en": "", "ur": "ہوم اکنامکس کا تعارف" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "غذا اور غذائیت کا تعارف" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "غذا اور خوراک کو سمجھنا" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "کھانوں کی تیاری" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "بچوں کی نگہداشت اور نشوونما کا تعارف" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "نشوونمائی خصوصیات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "بچوں کے رویوں کے مسائل" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "انسانی نشوونما میں خاندان اور معاشرے کا کردار" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      },
+      {
+        "name": { "en": "Pakistan Studies", "ur": "پاکستان سٹڈیز" },
+        "chapters": [
+          {
+            "title": { "en": "The Ideological Basis of Pakistan", "ur": "پاکستان کی نظریاتی بنیاد" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Establishment of Tehreek-e-Pakistan and Pakistan", "ur": "تحریک پاکستان اور پاکستان کا قیام" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Land and Environment", "ur": "زمین اور ماحول" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "Empowering Women", "ur": "خواتین کو بااختیار بنانا" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      },
+      {
+        "name": { "en": "Physical Education", "ur": "جسمانی تعلیم" },
+        "chapters": [
+          {
+            "title": { "en": "", "ur": "تعلیم جسمانی کی تعریف" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "حرکات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "تعلیمی جمناسٹک" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "قامت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "منظم کھیلیں(الف) والی بال" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "منظم کھیلیں(ب) بیڈمنٹن" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "اتھلیٹکس کے قوانین اور بنیادی مہارتیں" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "علم الصحت اور اس کی وسعت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "شخصی حفظانِ صحت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "جسم کے حرکاتی کل پرزے" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      },
+      {
+        "name": { "en": "Poultry Farming", "ur": "مرغبانی" },
+        "chapters": [
+          {
+            "title": { "en": "", "ur": "مرغبانی کا تعارف و اہمیت" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "مرغی کا جسم اور مختلف اجزاء" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "مرغیوں کی نسلیں" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "ہیچری کے انتظامات" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "انوائر منٹ کنٹرول برائلر فارمنگ(پارٹ ۔1)" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "مرغی خانے کی عمارت(پارٹ ۔1)" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          },
+          {
+            "title": { "en": "", "ur": "مرغی خانے کا سامان" },
+            "mcqs": [],
+            "short_questions": [],
+            "short_questions_ur": [],
+            "long_questions": [],
+            "long_questions_ur": []
+          }
+        ]
+      }
+    ]
+  }
+]
