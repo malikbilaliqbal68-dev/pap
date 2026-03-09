@@ -1534,7 +1534,13 @@
           if (type === 'paragraph' || type.toLowerCase() === 'comprehension' || type === 'paragraphs') {
             console.log(`PARAGRAPH PICKED: "${item.en}", Questions count:`, item.questions ? item.questions.length : 0, 'Questions:', item.questions);
           }
-          sectionState[type].picked.push(item);
+          const alreadyPicked = sectionState[type].picked.some((p) =>
+            String(p.en || '').trim() === String(item.en || '').trim()
+            && String(p.chapter || '').trim() === String(item.chapter || '').trim()
+          );
+          if (!alreadyPicked) {
+            sectionState[type].picked.push(item);
+          }
           // FIXED: Handle both standard sections (camelCase) and English B sections (underscore)
           // Try standard format first: includeParagraph, includeShort, etc.
           let catCheck = document.getElementById('include' + type.charAt(0).toUpperCase() + type.slice(1));
@@ -2084,3 +2090,4 @@
 </body>
 
 </html>
+
