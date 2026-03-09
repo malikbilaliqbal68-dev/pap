@@ -437,100 +437,16 @@
                     class="fa-solid fa-xmark text-xl"></i></button>
 
             <div class="text-center mb-10">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#3f3a64] mb-4">Choose Your <span
-                        class="text-[#19c880] italic">Plan</span></h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#3f3a64] mb-4">All Features Are <span
+                        class="text-[#19c880] italic">Free</span></h2>
             </div>
 
-            <div id="referralPanel"
-                class="hidden mb-8 bg-white border border-green-100 rounded-2xl p-5 shadow-sm">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div>
-                        <p class="text-xs uppercase tracking-widest text-gray-400 font-bold">Referral Program</p>
-                        <p class="text-sm text-gray-700 mt-1">Generate <strong>15</strong> free papers. Get <strong>unlimited free access</strong> after <strong>10 paid referrals</strong>.</p>
-                        <p class="text-sm mt-2">Your code: <span id="referralCodeText" class="font-black text-[#19c880]">-</span></p>
-                        <p class="text-xs text-gray-500 mt-1" id="referralProgressText">Paid referrals: 0/10</p>
-                    </div>
-                    <button id="copyReferralBtn" onclick="copyReferralCode()"
-                        class="px-4 py-2 rounded-xl bg-[#3f3a64] text-white text-xs font-bold uppercase tracking-widest hover:opacity-90 transition">
-                        Copy Code
-                    </button>
-                </div>
-                <div class="mt-4 flex gap-2">
-                    <input id="applyReferralInput" type="text" placeholder="Enter referral code"
-                        class="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-[#19c880] focus:ring-0 outline-none transition-all">
-                    <button onclick="applyReferralCodeNow()"
-                        class="px-4 py-3 rounded-xl bg-[#19c880] text-white text-xs font-bold uppercase tracking-widest hover:opacity-90 transition">
-                        Apply
-                    </button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div
-                    class="bg-white p-8 rounded-[35px] border border-gray-100 hover:border-[#19c880] transition-all group flex flex-col">
-                    <h3 class="text-xl font-bold mb-2">Weekly Unlimited</h3>
-                    <p class="text-gray-400 text-sm mb-6 font-medium">2 Weeks Access</p>
-                    <div class="text-4xl font-black text-[#3f3a64] mb-2 tracking-tight">
-                        <span class="text-lg">PKR</span> <span>450</span>
-                    </div>
-                    <div class="text-sm text-green-600 font-bold mb-4">First-time: PKR 400</div>
-                    <ul class="space-y-4 mb-8 flex-grow text-sm text-gray-500">
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-[#19c880]"></i>
-                            Unlimited Papers</li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-[#19c880]"></i> Any
-                            Book Included</li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-[#19c880]"></i> 14
-                            Days Full Access</li>
-                    </ul>
-                    <button onclick="selectPlan('weekly_unlimited', 450)"
-                        class="w-full py-4 rounded-2xl border-2 border-gray-100 font-bold hover:bg-[#19c880] hover:text-white transition-all text-sm">Select
-                        Plan</button>
-                </div>
-
-                <div
-                    class="bg-white p-8 rounded-[35px] border-2 border-[#19c880] relative shadow-xl shadow-green-50 flex flex-col scale-105 transform">
-                    <div
-                        class="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#19c880] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
-                        Most Popular</div>
-                    <h3 class="text-xl font-bold mb-2">Monthly Specific</h3>
-                    <p class="text-gray-400 text-sm mb-6 font-medium">1 Month Access</p>
-                    <div class="text-4xl font-black text-[#3f3a64] mb-2 tracking-tight">
-                        <span class="text-lg">PKR</span> <span>800</span>
-                    </div>
-                    <div class="text-sm text-green-600 font-bold mb-4">First-time: PKR 750</div>
-                    <ul class="space-y-4 mb-8 flex-grow text-sm text-gray-500">
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-[#19c880]"></i> 30
-                            Papers Limit</li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-[#19c880]"></i> One
-                            Specific Book</li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-[#19c880]"></i> 30
-                            Days Access</li>
-                    </ul>
-                    <button onclick="selectPlan('monthly_specific', 800)"
-                        class="w-full btn-premium text-white py-4 rounded-2xl font-bold text-sm shadow-lg shadow-green-100">Select
-                        Plan</button>
-                </div>
-
-                <div
-                    class="bg-white p-8 rounded-[35px] border border-gray-100 hover:border-[#19c880] transition-all group flex flex-col">
-                    <h3 class="text-xl font-bold mb-2">Monthly Unlimited</h3>
-                    <p class="text-gray-400 text-sm mb-6 font-medium">1 Month Pro Access</p>
-                    <div class="text-4xl font-black text-[#3f3a64] mb-2 tracking-tight">
-                        <span class="text-lg">PKR</span> <span>1200</span>
-                    </div>
-                    <div class="text-sm text-green-600 font-bold mb-4">First-time: PKR 1150</div>
-                    <ul class="space-y-4 mb-8 flex-grow text-sm text-gray-500">
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-[#19c880]"></i>
-                            Unlimited Papers</li>
-                        <li class="flex items-center gap-3 font-bold text-[#3f3a64]"><i
-                                class="fa-solid fa-circle-check text-[#19c880]"></i> No Book Specifications</li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-[#19c880]"></i> 30
-                            Days Full Access</li>
-                    </ul>
-                    <button onclick="selectPlan('monthly_unlimited', 1200)"
-                        class="w-full py-4 rounded-2xl border-2 border-gray-100 font-bold hover:bg-[#19c880] hover:text-white transition-all text-sm">Select
-                        Plan</button>
-                </div>
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-[32px] border border-green-100 shadow-sm text-center">
+                <p class="text-sm uppercase tracking-widest text-gray-400 font-bold mb-3">Free Access Enabled</p>
+                <p class="text-lg text-[#3f3a64] font-semibold">Payments, pricing plans, and generation limits have been removed.</p>
+                <p class="text-sm text-gray-500 mt-2">You can now generate unlimited papers and quizzes.</p>
+                <a href="/paper"
+                    class="inline-block mt-6 btn-premium text-white px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest">Start Generating</a>
             </div>
         </div>
     </div>
@@ -545,8 +461,8 @@
                 <a href="/courses" class="hover:text-[#19c880] transition">Courses</a>
                 <a href="/paper" class="hover:text-[#19c880] transition">Generate</a>
                 <div class="flex items-center gap-6 ml-4 border-l pl-8 border-gray-300">
-                    <i onclick="toggleModal('pricingModal')"
-                        class="fa-solid fa-cart-shopping text-gray-400 cursor-pointer hover:text-[#19c880]"></i>
+                    <a href="/paper" title="Generate Papers"
+                        class="fa-solid fa-wand-magic-sparkles text-gray-400 cursor-pointer hover:text-[#19c880]"></a>
                     <i id="loginBtn"
                         class="fa-regular fa-user-circle text-xl text-gray-400 cursor-pointer hover:text-[#19c880]"></i>
                     <% if (typeof isSuperUser !=='undefined' && isSuperUser) { %>
@@ -568,8 +484,8 @@
                     <a href="/courses" class="py-2 px-3 rounded-xl hover:bg-[#f8f1eb] transition">Courses</a>
                     <a href="/paper" class="py-2 px-3 rounded-xl hover:bg-[#f8f1eb] transition">Generate</a>
                     <div class="flex items-center gap-6 pt-2 border-t border-gray-200">
-                        <i onclick="toggleModal('pricingModal')"
-                            class="fa-solid fa-cart-shopping text-gray-400 cursor-pointer hover:text-[#19c880]"></i>
+                        <a href="/paper" title="Generate Papers"
+                            class="fa-solid fa-wand-magic-sparkles text-gray-400 cursor-pointer hover:text-[#19c880]"></a>
                         <i id="mobileLoginBtn"
                             class="fa-regular fa-user-circle text-xl text-gray-400 cursor-pointer hover:text-[#19c880]"></i>
                     </div>
@@ -587,7 +503,7 @@
                         class="text-[#19c880] font-normal italic">Master</span> <br> Your Time.</h1>
                 <p class="text-gray-500 text-base mb-10 max-w-md leading-relaxed">Focus on real skills that boost your
                     career growth and personal freedom.</p>
-                <button onclick="toggleModal('pricingModal')"
+                <button onclick="window.location.href='/paper'"
                     class="btn-premium text-white px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest">Get
                     Started Now</button>
             </div>
@@ -651,35 +567,8 @@
         <p class="text-gray-400 text-[10px] mt-2 uppercase tracking-widest">Reimagining Education</p>
     </footer>
 
-    <div id="bookSelectionModal"
-        class="modal-overlay fixed inset-0 z-[110] flex items-center justify-center invisible opacity-0 p-4">
-        <div class="absolute inset-0 bg-[#3f3a64]/60 backdrop-blur-sm" onclick="toggleModal('bookSelectionModal')">
-        </div>
-        <div class="modal-content relative bg-white w-full max-w-2xl p-8 rounded-[40px] shadow-2xl max-h-[90vh] overflow-y-auto">
-            <button onclick="toggleModal('bookSelectionModal')"
-                class="absolute top-6 right-8 text-gray-400 hover:text-red-500 transition"><i
-                    class="fa-solid fa-xmark text-xl"></i></button>
-            <h3 class="text-2xl font-bold text-[#3f3a64] mb-6 text-center" id="bookSelectionTitle">Select 1 Book</h3>
-            <p class="text-sm text-gray-600 mb-6 text-center">Choose from all available subjects</p>
-            <div class="space-y-3 mb-6" id="bookCheckboxes">
-                <p class="text-center text-[#19c880] font-semibold">Loading books...</p>
-            </div>
-            <button onclick="confirmBookSelection()"
-                class="w-full btn-premium text-white py-4 rounded-2xl font-bold text-sm shadow-lg shadow-green-200">Continue
-                to Payment</button>
-        </div>
-    </div>
-
-    <div id="paymentModal"
-        class="modal-overlay fixed inset-0 z-[120] flex items-center justify-center invisible opacity-0 p-4">
-        <div class="absolute inset-0 bg-[#3f3a64]/60 backdrop-blur-sm" onclick="closePaymentModal()"></div>
-        <div class="modal-content relative bg-white w-full max-w-2xl p-8 rounded-[40px] shadow-2xl">
-            <button onclick="closePaymentModal()"
-                class="absolute top-6 right-8 text-gray-400 hover:text-red-500 transition"><i
-                    class="fa-solid fa-xmark text-xl"></i></button>
-            <div id="paymentContent"></div>
-        </div>
-    </div>
+    <div id="bookSelectionModal" class="hidden"></div>
+    <div id="paymentModal" class="hidden"></div>
 
     <script>
         let currentPlan = null;
@@ -688,8 +577,6 @@
         let isLoggedIn = false;
         let loginAutoHideTimer = null;
         const FIRST_VISIT_LOGIN_KEY = 'paperify_first_visit_login_shown_v1';
-        window.PAYMENT_NUMBER = '<%= typeof paymentNumber !== "undefined" ? paymentNumber : "03XXXXXXXXX" %>';
-
         // Toggle Nav and Modal Logic
         function setModalState(modalId, shouldOpen) {
             const modal = document.getElementById(modalId);
@@ -815,246 +702,32 @@
 
         // Plan Selection
         function selectPlan(plan, amount) {
-            // Check if user is logged in
-            if (!window.isLoggedIn) {
-                showNotification('Please login first to select a plan', 'error');
-                toggleModal('loginModal');
-                return;
-            }
-
-            currentPlan = plan;
-
-            // Apply first-time discount if available
-            const discountEnabled = localStorage.getItem('paperify_discount_enabled') === 'true';
-            if (discountEnabled) {
-                currentAmount = Math.floor(amount * 0.9); // 10% discount
-            } else {
-                currentAmount = amount;
-            }
-
-            if (plan === 'monthly_specific') {
-                // Show book selection modal for 1 book
-                document.getElementById('bookSelectionTitle').innerText = "Select 1 Book";
-                toggleModal('pricingModal');
-                loadAllBooks(); // Load books dynamically
-                toggleModal('bookSelectionModal');
-            } else {
-                // For weekly_unlimited and monthly_unlimited, no book selection needed
-                toggleModal('pricingModal');
-                showPaymentForm(plan, currentAmount, []);
-            }
+            window.location.href = '/paper';
         }
 
         // Load all books dynamically from API
         async function loadAllBooks() {
-            const container = document.getElementById('bookCheckboxes');
-            container.innerHTML = '<p class="text-center text-[#19c880] font-semibold">Loading books...</p>';
-            
-            // All subjects from your actual syllabus data
-            const fallbackBooks = [
-                // Science Subjects
-                'Biology', 'Chemistry', 'Physics', 'Mathematics', 'Computer Science',
-                'Math form science group', 'Busniess Mathematics',
-                // Arts/General Subjects  
-                'Civics', 'Food and Nutrition', 'General Mathematics', 'General Science', 
-                'Home Economics', 'Pakistan Studies', 'Physical Education', 'Poultry Farming',
-                'English', 'Education'
-            ];
-            
-            try {
-                const response = await fetch('/api/books/all');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('API Response:', data);
-                
-                let books = fallbackBooks;
-                
-                if (data && data.books && Array.isArray(data.books) && data.books.length > 0) {
-                    books = data.books;
-                } else {
-                    console.warn('No books found in API response, using fallback');
-                }
-                
-                console.log('Using books:', books);
-                
-                container.innerHTML = books.map(book => `
-                    <label class="flex items-center gap-3 p-3 border-2 border-gray-200 rounded-xl hover:border-[#19c880] cursor-pointer transition">
-                        <input type="checkbox" class="book-checkbox w-5 h-5 accent-[#19c880]" value="${book}"> 
-                        <span class="font-bold">${book}</span>
-                    </label>
-                `).join('');
-            } catch (error) {
-                console.error('Error loading books:', error);
-                console.log('Using fallback books due to error');
-                // Use fallback on error
-                container.innerHTML = fallbackBooks.map(book => `
-                    <label class="flex items-center gap-3 p-3 border-2 border-gray-200 rounded-xl hover:border-[#19c880] cursor-pointer transition">
-                        <input type="checkbox" class="book-checkbox w-5 h-5 accent-[#19c880]" value="${book}"> 
-                        <span class="font-bold">${book}</span>
-                    </label>
-                `).join('');
-            }
+            return [];
         }
 
         function confirmBookSelection() {
-            const checked = document.querySelectorAll('.book-checkbox:checked');
-            const limit = currentPlan === 'monthly_specific' ? 1 : 2;
-            if (checked.length !== limit) {
-                showNotification(`Please select exactly ${limit} book${limit > 1 ? 's' : ''}`, 'error');
-                return;
-            }
-            selectedBooks = Array.from(checked).map(cb => cb.value);
-            toggleModal('bookSelectionModal');
-            showPaymentForm(currentPlan, currentAmount, selectedBooks);
+            window.location.href = '/paper';
         }
 
                         function showPaymentForm(plan, amount, books) {
-            const planName = plan === 'weekly_unlimited' ? 'Weekly Unlimited (14 Days)' : plan === 'monthly_specific' ? 'Monthly Specific (30 Papers)' : 'Monthly Unlimited (30 Days)';
-            const bookInfo = books && books.length > 0 ? `<p class="text-xs text-gray-600 mt-3"><strong>Books:</strong> ${books.join(', ')}</p>` : '';
-
-            const paymentHTML = `
-    <div class="text-center mb-8">
-        <h3 class="text-xl font-bold text-[#3f3a64] tracking-tight">Secure Manual Payment</h3>
-        <p class="text-xs text-gray-400 mt-1">Create order, pay to number, then submit proof for verification</p>
-    </div>
-
-    <div class="max-w-md mx-auto space-y-6">
-        <div class="flex justify-between items-center px-2">
-            <div>
-                <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Plan</span>
-                <p class="text-lg font-bold text-[#3f3a64]">${planName}</p>
-            </div>
-            <div class="text-right">
-                <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Amount</span>
-                <p class="text-2xl font-black text-[#19c880]">PKR ${amount}</p>
-            </div>
-        </div>
-
-        ${bookInfo}
-
-        <div class="bg-[#3f3a64] rounded-2xl p-6 border-b-4 border-[#19c880] text-center shadow-xl">
-            <span class="text-[11px] uppercase tracking-[3px] text-gray-300 font-black mb-3 block">Send Payment To</span>
-            <p class="text-4xl font-mono font-black text-[#19c880] tracking-tighter mb-2">0344 8007154</p>
-            <p class="text-[10px] text-white/70 uppercase font-bold tracking-widest">Send exactly PKR ${amount}</p>
-        </div>
-
-        <div id="orderInfo" class="rounded-xl border border-gray-200 bg-gray-50 p-3 text-xs text-gray-700">
-            <p>Order: <span id="orderIdText" class="font-bold">Creating...</span></p>
-            <p class="mt-1">Expires: <span id="orderExpiryText" class="font-bold">--</span></p>
-        </div>
-
-        <div class="space-y-4">
-            <div>
-                <label class="text-[10px] uppercase font-bold text-gray-400 mb-2 block ml-1">Transaction ID</label>
-                <input type="text" id="txnId" placeholder="Enter transaction ID" maxlength="20"
-                    class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-[#19c880] focus:ring-0 outline-none transition-all">
-            </div>
-            <div>
-                <label class="text-[10px] uppercase font-bold text-gray-400 mb-2 block ml-1">Sender Number</label>
-                <input type="text" id="senderNumber" placeholder="e.g. 03XXXXXXXXX" maxlength="15"
-                    class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-[#19c880] focus:ring-0 outline-none transition-all">
-            </div>
-            <div>
-                <label class="text-[10px] uppercase font-bold text-gray-400 mb-2 block ml-1">Payment Screenshot</label>
-                <input type="file" id="screenshot" accept="image/*" required
-                    class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-[10px] file:font-bold file:bg-[#3f3a64] file:text-white hover:file:bg-black">
-            </div>
-        </div>
-
-        <div class="pt-4">
-            <button onclick="submitPayment('${plan}', ${amount}, ${JSON.stringify(books).replace(/"/g, '&quot;')})"
-                class="w-full bg-[#19c880] text-white py-4 rounded-xl font-bold text-xs uppercase tracking-[2px] hover:shadow-lg hover:shadow-[#19c880]/20 transition-all">
-                Submit Payment Proof
-            </button>
-            <button onclick="closePaymentModal()"
-                class="w-full mt-2 text-gray-400 text-[10px] font-bold uppercase tracking-widest py-2 hover:text-red-400 transition-colors">
-                Cancel
-            </button>
-        </div>
-
-        <p class="text-[10px] text-center text-gray-400 italic">After admin verification, plan activates with expiry date.</p>
-    </div>
-`;
-
-            document.getElementById('paymentContent').innerHTML = paymentHTML;
-            document.getElementById('paymentModal').classList.add('active');
-            setTimeout(() => createPaymentOrder(plan, books), 50);
+            window.location.href = '/paper';
         }
 
         async function createPaymentOrder(plan, books) {
-            const orderIdEl = document.getElementById('orderIdText');
-            const orderExpiryEl = document.getElementById('orderExpiryText');
-            
-            if (!orderIdEl || !orderExpiryEl) {
-                console.error('Order elements not found');
-                setTimeout(() => createPaymentOrder(plan, books), 100);
-                return;
-            }
-            
-            try {
-                const response = await fetch('/api/payment/create-link', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        plan,
-                        books,
-                        userEmail: localStorage.getItem('paperify_user_email') || ''
-                    })
-                });
-                const data = await response.json();
-                if (!response.ok || !data.success) {
-                    showNotification(data.error || 'Unable to create payment link', 'error');
-                    orderIdEl.innerText = 'Failed';
-                    return;
-                }
-                orderIdEl.innerText = data.linkId;
-                orderExpiryEl.innerText = '30 minutes';
-            } catch (error) {
-                showNotification('Payment link error: ' + error.message, 'error');
-                if (orderIdEl) orderIdEl.innerText = 'Failed';
-            }
+            return null;
         }
 
         function closePaymentModal() {
-            document.getElementById('paymentModal').classList.remove('active');
+            return;
         }
 
                         async function submitPayment(plan, amount, books) {
-            const orderId = document.getElementById('orderIdText')?.innerText?.trim();
-            const txnId = document.getElementById('txnId')?.value?.trim();
-            const senderNumber = document.getElementById('senderNumber')?.value?.trim();
-            const screenshot = document.getElementById('screenshot')?.files?.[0];
-
-            if (!orderId || orderId === 'Creating...' || orderId === 'Failed') {
-                showNotification('Valid order not found. Please reopen payment modal.', 'error');
-                return;
-            }
-            if (!txnId || !/^\d{10,20}$/.test(txnId)) {
-                showNotification('Transaction ID must be 10-20 digits.', 'error');
-                return;
-            }
-            try {
-                const form = new FormData();
-                form.append('transactionId', txnId);
-                if (senderNumber) form.append('senderNumber', senderNumber);
-                if (screenshot) form.append('screenshot', screenshot);
-                const response = await fetch(`/api/payment/submit/${encodeURIComponent(orderId)}`, {
-                    method: 'POST',
-                    body: form
-                });
-                const data = await response.json();
-                if (!response.ok || !data.success) {
-                    showNotification(data.error || 'Payment submission failed', 'error');
-                    return;
-                }
-                showNotification('Payment submitted. Admin verification is pending.', 'success');
-                closePaymentModal();
-            } catch (error) {
-                showNotification('Error: ' + error.message, 'error');
-            }
+            window.location.href = '/paper';
         }
 
         // Admin: toggle temporary unlimited for current session (visible only to superuser)
@@ -1117,5 +790,9 @@
 </body>
 
 </html>
+
+
+
+
 
 
