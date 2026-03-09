@@ -1019,8 +1019,6 @@ app.get('/roadmap/', (req, res) => res.render('roadmap'));
 app.get('/ans', (req, res) => res.render('answer'));
 app.get('/ai-mentor', (req, res) => res.render('ai-mentor'));
 app.get('/pricing', (req, res) => res.render('pricing'));
-app.get('/quiz', (req, res) => res.render('quiz'));
-
 
 app.listen(PORT, async () => {
   console.log(`Server running at http://localhost:${PORT}`);
